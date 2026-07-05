@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { StaggerGroup, StaggerItem } from "@/components/motion/reveal";
 import { BIO, EDUCATION, EXPERIENCE, SKILL_GROUPS } from "@/lib/content/about";
 import type { TimelineEntry } from "@/lib/content/about";
 import { SITE } from "@/lib/site-config";
@@ -60,23 +61,27 @@ export default function AboutPage(): React.JSX.Element {
       </p>
 
       <h2 className="mb-5 text-[22px] font-semibold text-(--text-primary)">Education</h2>
-      <div className="mb-14 flex flex-col">
+      <StaggerGroup className="mb-14 flex flex-col">
         {EDUCATION.map((entry, index) => (
-          <TimelineRow key={entry.heading} entry={entry} first={index === 0} />
+          <StaggerItem key={entry.heading}>
+            <TimelineRow entry={entry} first={index === 0} />
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
 
       <h2 className="mb-5 text-[22px] font-semibold text-(--text-primary)">Experience</h2>
-      <div className="mb-14 flex flex-col">
+      <StaggerGroup className="mb-14 flex flex-col">
         {EXPERIENCE.map((entry, index) => (
-          <TimelineRow key={entry.heading} entry={entry} first={index === 0} />
+          <StaggerItem key={entry.heading}>
+            <TimelineRow entry={entry} first={index === 0} />
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
 
       <h2 className="mb-5 text-[22px] font-semibold text-(--text-primary)">Skills</h2>
-      <div className="flex flex-col gap-[22px]">
+      <StaggerGroup className="flex flex-col gap-[22px]">
         {SKILL_GROUPS.map((group) => (
-          <div key={group.label}>
+          <StaggerItem key={group.label}>
             <div className="mb-[10px] font-mono text-[12px] font-medium tracking-[0.05em] text-(--text-muted) uppercase">
               {group.label}
             </div>
@@ -90,9 +95,9 @@ export default function AboutPage(): React.JSX.Element {
                 </span>
               ))}
             </div>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerGroup>
     </main>
   );
 }

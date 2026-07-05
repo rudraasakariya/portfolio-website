@@ -1,8 +1,14 @@
 import { ProjectPreview } from "@/components/projects/project-preview";
+import { SpotlightCard } from "@/components/projects/spotlight-card";
 import type { Project } from "@/lib/content/projects";
 
 interface ProjectCardProps {
   project: Project;
+}
+
+interface ProjectCardRootProps extends ProjectCardProps {
+  /** Forwarded through to the motion card for AnimatePresence popLayout. */
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 function Eyebrow({ project }: ProjectCardProps): React.JSX.Element {
@@ -82,10 +88,10 @@ function ActionRow({ project }: ProjectCardProps): React.JSX.Element | null {
   );
 }
 
-export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
+export function ProjectCard({ project, ref }: ProjectCardRootProps): React.JSX.Element {
   if (project.layout === "featured-side") {
     return (
-      <div className="proj-card md:col-span-2 md:grid md:grid-cols-2">
+      <SpotlightCard ref={ref} className="proj-card md:col-span-2 md:grid md:grid-cols-2">
         <div className="preview-frame md:h-auto md:border-r md:border-b-0 md:border-r-(--border)">
           <div className="chrome">
             <span className="dot" />
@@ -108,13 +114,13 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
           <ImpactList project={project} />
           <ActionRow project={project} />
         </div>
-      </div>
+      </SpotlightCard>
     );
   }
 
   if (project.layout === "featured-wide") {
     return (
-      <div className="proj-card md:col-span-2">
+      <SpotlightCard ref={ref} className="proj-card md:col-span-2">
         <div className="preview-frame h-[140px]">
           <ProjectPreview caption={project.previewCaption} />
         </div>
@@ -127,12 +133,12 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
           </div>
           <ImpactList project={project} className="md:self-center" />
         </div>
-      </div>
+      </SpotlightCard>
     );
   }
 
   return (
-    <div className="proj-card">
+    <SpotlightCard ref={ref} className="proj-card">
       <div className="preview-frame">
         <ProjectPreview caption={project.previewCaption} />
       </div>
@@ -146,6 +152,6 @@ export function ProjectCard({ project }: ProjectCardProps): React.JSX.Element {
         <ImpactList project={project} />
         <ActionRow project={project} />
       </div>
-    </div>
+    </SpotlightCard>
   );
 }
