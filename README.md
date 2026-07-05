@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# rudraraj sakariya — portfolio
 
-## Getting Started
+Personal portfolio site. Next.js 16 (App Router) · TypeScript · Tailwind CSS v4, deployed on Vercel.
 
-First, run the development server:
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Contact form
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The contact form sends email through [Resend](https://resend.com) via `app/api/contact/route.ts`. Copy `.env.example` to `.env.local` and set `RESEND_API_KEY` (also set it in Vercel project settings for production). Without a key the form degrades to a "email me directly" message.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Content
 
-## Learn More
+All copy and data are centralized:
 
-To learn more about Next.js, take a look at the following resources:
+- `lib/site-config.ts` — routes, contact info, social links, résumé path
+- `lib/content/home.ts` — hero, highlight cards, stack pills
+- `lib/content/projects.ts` — project cards (set `demoUrl` to surface a Live Demo button)
+- `lib/content/about.ts` — bio, education, experience, skills
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Theming
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Light/dark palettes are CSS custom properties on `:root` / `[data-theme="dark"]` in `app/globals.css`, persisted to `localStorage` (`rs-portfolio-theme`) and applied before first paint by an inline script in `app/layout.tsx`.

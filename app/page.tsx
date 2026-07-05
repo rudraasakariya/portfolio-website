@@ -1,65 +1,122 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+import { HERO, HIGHLIGHTS, STACK_PILLS } from "@/lib/content/home";
+import { ROUTES, SITE } from "@/lib/site-config";
+
+export default function HomePage(): React.JSX.Element {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="relative z-[1] flex-1 overflow-hidden">
+      <div
+        className="pointer-events-none absolute -top-[120px] -right-[160px] h-[520px] w-[520px] rounded-full"
+        style={{
+          background: "radial-gradient(circle, var(--accent-soft), transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto grid max-w-[1360px] items-center gap-[56px] px-[7vw] pt-[8vh] pb-[7vh] lg:grid-cols-[1.35fr_0.65fr]">
+        <div>
+          <div className="mb-[22px] inline-flex items-center gap-2 rounded-[20px] bg-(--accent-soft) py-[6px] pr-3 pl-2">
+            <span className="inline-block h-[7px] w-[7px] rounded-full bg-(--accent)" />
+            <span className="font-mono text-[12px] font-medium tracking-[0.03em] text-(--accent)">
+              {HERO.availability}
+            </span>
+          </div>
+          <h1 className="mb-[22px] text-[clamp(38px,5.6vw,64px)] leading-[1.04] font-semibold tracking-[-0.025em] text-(--text-primary)">
+            Rudraraj
+            <br />
+            Sakariya
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mb-2 text-[20px] font-semibold text-(--accent)">{HERO.role}</p>
+          <p className="mb-9 max-w-[480px] text-[18px] leading-[1.6] text-(--text-secondary)">
+            {HERO.valueProp}
           </p>
+          <div className="flex flex-wrap gap-[14px]">
+            <Link
+              href={ROUTES.contact}
+              className="rounded-[8px] bg-(--text-primary) px-6 py-[13px] text-[14px] font-medium text-(--bg-page)"
+            >
+              Get in touch
+            </Link>
+            <a
+              href={SITE.resumePath}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-[8px] border border-(--border-strong) px-6 py-[13px] text-[14px] font-medium text-(--text-primary)"
+            >
+              Download résumé
+            </a>
+            <a
+              href={SITE.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center px-[6px] py-[13px] text-[14px] font-medium text-(--text-secondary)"
+            >
+              LinkedIn
+            </a>
+            <a
+              href={SITE.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center px-[6px] py-[13px] text-[14px] font-medium text-(--text-secondary)"
+            >
+              GitHub
+            </a>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="relative">
+          <div className="absolute rounded-[16px] bg-(--accent) opacity-90 inset-[18px_-18px_-18px_18px]" />
+          <div className="stripes relative flex aspect-[1/1.05] items-center justify-center rounded-[16px] border border-(--border)">
+            <span className="font-mono text-[12px] font-medium text-(--text-muted)">
+              headshot
+            </span>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+
+      <div className="mt-[2vh] bg-(--band-bg) px-[7vw] py-[6vh]">
+        <div className="mx-auto grid max-w-[1360px] gap-px overflow-hidden rounded-[14px] bg-[rgba(255,255,255,0.08)] md:grid-cols-3">
+          {HIGHLIGHTS.map((card) => (
+            <div key={card.index} className="bg-(--band-bg) px-[30px] py-[34px]">
+              <div className="mb-[14px] font-mono text-[34px] font-semibold text-[#5b9bf0]">
+                {card.index}
+              </div>
+              <div className="mb-2 text-[16px] font-semibold text-white">{card.title}</div>
+              <div className="text-[14px] leading-[1.6] text-[rgba(255,255,255,0.6)]">
+                {card.body}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-[1360px] px-[7vw] py-[7vh]">
+        <div className="mb-7 flex flex-wrap items-baseline justify-between gap-3">
+          <h2 className="m-0 text-[22px] font-semibold text-(--text-primary)">
+            What I work with
+          </h2>
+          <Link
+            href={ROUTES.projects}
+            className="font-mono text-[13px] font-medium text-(--accent)"
+          >
+            See it in projects →
+          </Link>
+        </div>
+        <div className="flex flex-wrap gap-[10px]">
+          {STACK_PILLS.map((pill) => (
+            <span
+              key={pill.label}
+              className={
+                pill.highlighted
+                  ? "rounded-[20px] border border-(--accent) bg-(--accent) px-[18px] py-[9px] font-mono text-[13px] font-medium text-white"
+                  : "rounded-[20px] border border-(--border-strong) bg-(--card-bg) px-[18px] py-[9px] font-mono text-[13px] font-medium text-(--text-secondary)"
+              }
+            >
+              {pill.label}
+            </span>
+          ))}
+        </div>
+      </div>
+    </main>
   );
 }
