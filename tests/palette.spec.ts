@@ -28,6 +28,9 @@ test.describe("search palette", () => {
     await page.getByPlaceholder("Ask my portfolio…").fill("channelseal");
     await expect(page.getByRole("option").first()).toContainText(/ChannelSeal/i);
     await page.keyboard.press("Enter");
-    await expect(page).toHaveURL(/\/(about|projects)#/);
+    // Bare route — anchor ids must stay out of the URL bar.
+    await expect(page).toHaveURL(/\/(about|projects)$/);
+    // The landing section gets the highlight pulse once it scrolls into view.
+    await expect(page.locator(".search-flash")).toHaveCount(1);
   });
 });

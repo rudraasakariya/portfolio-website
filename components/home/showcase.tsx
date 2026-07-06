@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AnchorLink } from "@/components/anchor-link";
 import { ProjectPreview } from "@/components/projects/project-preview";
 import { TiltPreview } from "@/components/projects/tilt-preview";
 import { Reveal } from "@/components/motion/reveal";
@@ -38,12 +39,13 @@ export function Showcase(): React.JSX.Element {
             <p className="mb-5 max-w-[400px] text-[15px] leading-[1.6] text-(--text-secondary)">
               {project.tagline}
             </p>
-            <Link
-              href={`${ROUTES.projects}#${project.id}`}
+            <AnchorLink
+              route={ROUTES.projects}
+              anchor={project.id}
               className="link-slide font-mono text-[13px] font-medium text-(--accent)"
             >
               View project →
-            </Link>
+            </AnchorLink>
           </div>
           <TiltPreview className="preview-frame h-[240px] overflow-hidden rounded-[14px] border border-(--border) md:h-[280px]">
             <ProjectPreview caption={project.previewCaption} />

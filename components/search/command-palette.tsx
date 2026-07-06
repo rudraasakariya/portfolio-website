@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type { SearchChunk } from "@/lib/search/chunks";
@@ -13,13 +12,10 @@ import {
 } from "@/lib/search/config";
 import type { IndexedChunk, SearchIndex } from "@/lib/search/config";
 import { soundManager } from "@/lib/sound-manager";
+import { useAnchorJump } from "@/lib/use-anchor-jump";
 
 const RESULT_LIMIT = 8;
 const EMBED_DEBOUNCE_MS = 120;
-const ANCHOR_POLL_INTERVAL_MS = 50;
-const ANCHOR_POLL_TIMEOUT_MS = 1000;
-/** Must match the .search-flash animation duration in globals.css. */
-const FLASH_DURATION_MS = 1600;
 /** Semantic similarity dominates; keywords give exact matches a nudge. */
 const SEMANTIC_WEIGHT = 0.85;
 const KEYWORD_WEIGHT = 0.15;
@@ -126,35 +122,8 @@ function dot(a: ReadonlyArray<number>, b: ReadonlyArray<number>): number {
   return sum;
 }
 
-/** Waits for the target to exist post-navigation, then scrolls and flashes it. */
-function scrollToAnchor(anchor: string): void {
-  const reduceMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-  const startedAt = performance.now();
-  const poll = (): void => {
-    const element = document.getElementById(anchor);
-    if (element !== null) {
-      element.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
-      });
-      element.classList.add("search-flash");
-      window.setTimeout(
-        () => element.classList.remove("search-flash"),
-        FLASH_DURATION_MS,
-      );
-      return;
-    }
-    if (performance.now() - startedAt < ANCHOR_POLL_TIMEOUT_MS) {
-      window.setTimeout(poll, ANCHOR_POLL_INTERVAL_MS);
-    }
-  };
-  poll();
-}
-
 export function CommandPalette(): React.JSX.Element {
-  const router = useRouter();
+  const jump = useAnchorJump();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -270,8 +239,8 @@ export function CommandPalette(): React.JSX.Element {
   const handleSelect = (chunk: SearchChunk): void => {
     soundManager.play("tick");
     setOpen(false);
-    router.push(`${chunk.route}#${chunk.anchor}`);
-    scrollToAnchor(chunk.anchor);
+    // Bare route + programmatic scroll — no #id in the URL bar.
+    jump(chunk.route, chunk.anchor);
   };
 
   const onInputKeyDown = (
