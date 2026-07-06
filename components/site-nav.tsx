@@ -20,8 +20,7 @@ function LogoDot(): React.JSX.Element {
 
   return (
     <motion.span
-      // Absolute so the dot doesn't shift "RS" off the circle's center.
-      className="absolute left-full inline-block text-(--accent)"
+      className="inline-block text-(--accent)"
       animate={booped ? { y: -3, scale: 1.25 } : { y: 0, scale: 1 }}
       transition={DOT_SPRING}
       onHoverStart={() => {
@@ -64,7 +63,9 @@ export function SiteNav(): React.JSX.Element {
   return (
     <nav className="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) bg-(--nav-bg) px-[7vw] py-4 backdrop-blur-[8px]">
       <Link href={ROUTES.home} aria-label="Home" className="nav-chip font-mono text-[14px] font-semibold tracking-[0.02em]">
-        <span className="relative">
+        {/* Small left pad counterweights the dot so the monogram reads
+            optically centered — dead-centering either RS or RS. both look off. */}
+        <span className="inline-block pl-[3px]">
           RS
           <LogoDot />
         </span>
