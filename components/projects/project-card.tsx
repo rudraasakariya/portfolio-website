@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { ProjectPreview } from "@/components/projects/project-preview";
 import { SpotlightCard } from "@/components/projects/spotlight-card";
 import { TiltPreview } from "@/components/projects/tilt-preview";
@@ -77,11 +79,16 @@ function ActionRow({ project }: ProjectCardProps): React.JSX.Element | null {
   }
   return (
     <div className="mt-auto flex gap-[10px] pt-[6px]">
-      {project.demoUrl !== null && (
-        <a className="demo-btn" href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-          Live demo ↗
-        </a>
-      )}
+      {project.demoUrl !== null &&
+        (project.demoUrl.startsWith("/") ? (
+          <Link className="demo-btn" href={project.demoUrl}>
+            Live demo →
+          </Link>
+        ) : (
+          <a className="demo-btn" href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+            Live demo ↗
+          </a>
+        ))}
       {project.githubUrl !== null && (
         <a className="gh-btn" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
           GitHub

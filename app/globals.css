@@ -704,6 +704,84 @@ a {
 }
 
 /* ------------------------------------------------------------------ */
+/* Vision playground (in-browser object detection)                     */
+/* ------------------------------------------------------------------ */
+
+.vision-frame {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.vision-chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--stripe-b);
+}
+
+.vision-stage {
+  position: relative;
+  width: 100%;
+  background: var(--band-bg);
+}
+
+.vision-video,
+.vision-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Selfie view — detection boxes are x-flipped in draw code to match. */
+.vision-video {
+  object-fit: contain;
+  transform: scaleX(-1);
+}
+
+.vision-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  text-align: center;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.vision-status {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.vision-status[data-mode="live"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.vision-status[data-mode="loading"] {
+  color: var(--text-secondary);
+}
+
+
+/* ------------------------------------------------------------------ */
 /* Cmd+K "Ask my portfolio" search palette                             */
 /* ------------------------------------------------------------------ */
 

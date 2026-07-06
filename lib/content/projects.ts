@@ -1,11 +1,13 @@
 export enum ProjectCategory {
   FullStackWeb = "fullstack-web",
   SystemsNative = "systems-native",
+  AiMl = "ai-ml",
 }
 
 export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
   [ProjectCategory.FullStackWeb]: "Full-Stack / Web",
   [ProjectCategory.SystemsNative]: "Systems & Native",
+  [ProjectCategory.AiMl]: "AI / ML",
 };
 
 export type ProjectLayout = "featured-side" | "featured-wide" | "standard";
@@ -88,6 +90,26 @@ export const PROJECTS: ReadonlyArray<Project> = [
     demoUrl: null,
     githubUrl: null,
     privateLabel: "Private — access-gated",
+  },
+  {
+    id: "on-device-ai",
+    year: "2026",
+    title: "On-Device AI Playground",
+    tagline: "Transformer models running in your browser — zero servers",
+    eyebrow: "AI / ML · this site",
+    eyebrowAccent: true,
+    category: ProjectCategory.AiMl,
+    layout: "standard",
+    previewCaption: "live in-browser demo",
+    tags: ["transformers.js", "ONNX", "MiniLM embeddings", "YOLOS detection"],
+    impact: [
+      "Built the ⌘K semantic search on this site: MiniLM sentence embeddings computed at build time, cosine matching in the browser with an instant keyword fallback while the model warms up.",
+      "Added live webcam object detection — a YOLOS transformer runs on-device over the video feed and draws labeled boxes on a canvas overlay in real time.",
+      "Everything is fully client-side: models load once from a CDN, inference runs on the visitor's hardware, and no data ever leaves the device.",
+    ],
+    demoUrl: "/vision",
+    githubUrl: null,
+    privateLabel: null,
   },
   {
     id: "channelseal-portal",

@@ -3,6 +3,7 @@ export const ROUTES = {
   projects: "/projects",
   about: "/about",
   contact: "/contact",
+  vision: "/vision",
 } as const;
 
 export type Route = (typeof ROUTES)[keyof typeof ROUTES];

@@ -23,6 +23,7 @@ export function slugify(value: string): string {
 
 export const BIO_ANCHOR = "bio";
 export const CONTACT_DETAILS_ANCHOR = "contact-details";
+export const VISION_DEMO_ANCHOR = "vision-demo";
 
 export function educationAnchor(heading: string): string {
   return `edu-${slugify(heading)}`;
@@ -101,6 +102,14 @@ export function buildChunks(): SearchChunk[] {
       });
     });
   }
+
+  chunks.push({
+    id: VISION_DEMO_ANCHOR,
+    label: "Vision playground",
+    text: "Live object detection in the browser: a YOLOS transformer (ONNX) runs on-device over your webcam feed and draws labeled boxes in real time. No video ever leaves your device.",
+    route: ROUTES.vision,
+    anchor: VISION_DEMO_ANCHOR,
+  });
 
   chunks.push({
     id: CONTACT_DETAILS_ANCHOR,

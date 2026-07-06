@@ -17,9 +17,8 @@ const FILTERS: ReadonlyArray<{ value: Filter; label: string }> = [
   { value: "all", label: "All" },
   { value: ProjectCategory.FullStackWeb, label: CATEGORY_LABELS[ProjectCategory.FullStackWeb] },
   { value: ProjectCategory.SystemsNative, label: CATEGORY_LABELS[ProjectCategory.SystemsNative] },
+  { value: ProjectCategory.AiMl, label: CATEGORY_LABELS[ProjectCategory.AiMl] },
 ];
-
-const COMING_SOON_LABEL = "AI / ML — coming soon";
 
 const PILL_SPRING = { type: "spring", stiffness: 450, damping: 35 } as const;
 
@@ -57,7 +56,6 @@ export function ProjectExplorer(): React.JSX.Element {
             <span className="cat-pill-label">{label}</span>
           </button>
         ))}
-        <span className="cat-pill disabled">{COMING_SOON_LABEL}</span>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
