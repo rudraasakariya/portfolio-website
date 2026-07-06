@@ -1031,6 +1031,114 @@ a {
 .theme-fade .preview-frame,
 .theme-fade .preview-frame .chrome {
   transition-property: border-color !important;
+/* ------------------------------------------------------------------ */
+/* Request-cycle diagram (home architecture section)                   */
+/* ------------------------------------------------------------------ */
+.rc-svg {
+  display: block;
+  width: 100%;
+  min-width: 760px;
+  height: auto;
+}
+.rc-link {
+  stroke: var(--border-strong);
+  stroke-width: 2;
+  fill: none;
+}
+.rc-return {
+  stroke-dasharray: 6 7;
+}
+.rc-lane-label {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--text-muted);
+}
+.rc-node {
+  cursor: pointer;
+}
+.rc-node rect {
+  fill: var(--card-bg);
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+  transition: fill 0.2s, stroke 0.2s, stroke-width 0.2s;
+}
+.rc-node:hover rect,
+.rc-node:focus-visible rect {
+  stroke: var(--accent);
+  fill: var(--accent-soft);
+}
+/* Nodes the pulse has reached stay lit until the next run. */
+.rc-node.lit rect {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  fill: var(--accent-soft);
+}
+.rc-node-label {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 13.5px;
+  font-weight: 600;
+  fill: var(--text-primary);
+}
+.rc-node-sub {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 10.5px;
+  fill: var(--text-muted);
+}
+.rc-send {
+  display: inline-block;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s;
+}
+.rc-send:hover {
+  transform: scale(1.04);
+}
+.rc-send:active {
+  transform: scale(0.94);
+}
+.rc-send:disabled {
+  opacity: 0.55;
+  cursor: default;
+  transform: none;
+}
+.rc-caption {
+  margin-top: 14px;
+  min-height: 22px;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.rc-detail {
+  margin-top: 6px;
+  min-height: 24px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.rc-detail-label {
+  margin-right: 8px;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rc-node rect {
+    transition: none;
+  }
+}
+
 }
 
 /* Anchored elements (search results, hash links) land clear of the sticky nav. */

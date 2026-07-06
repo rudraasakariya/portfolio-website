@@ -1,4 +1,5 @@
 import { BIO, EDUCATION, EXPERIENCE, SKILL_GROUPS } from "@/lib/content/about";
+import { ARCH_NODES, ARCHITECTURE, REQUEST_CYCLE_ANCHOR } from "@/lib/content/architecture";
 import { CATEGORY_LABELS, PROJECTS } from "@/lib/content/projects";
 import { ROUTES, SITE } from "@/lib/site-config";
 
@@ -102,6 +103,14 @@ export function buildChunks(): SearchChunk[] {
       });
     });
   }
+
+  chunks.push({
+    id: REQUEST_CYCLE_ANCHOR,
+    label: "Architecture — request cycle",
+    text: `${ARCHITECTURE.heading}. ${ARCHITECTURE.intro} ${ARCH_NODES.map((node) => `${node.label} (${node.sublabel})`).join(" → ")}.`,
+    route: ROUTES.home,
+    anchor: REQUEST_CYCLE_ANCHOR,
+  });
 
   chunks.push({
     id: VISION_DEMO_ANCHOR,
