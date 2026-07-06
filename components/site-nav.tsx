@@ -9,6 +9,7 @@ import { SoundToggle } from "@/components/sound-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { OPEN_SEARCH_EVENT } from "@/lib/search/config";
 import { NAV_LINKS, ROUTES, SITE } from "@/lib/site-config";
+import { soundManager } from "@/lib/sound-manager";
 
 const DOT_SPRING = { type: "spring", stiffness: 500, damping: 12 } as const;
 const SEGMENT_SPRING = { type: "spring", stiffness: 400, damping: 32 } as const;
@@ -108,21 +109,29 @@ export function SiteNav(): React.JSX.Element {
           aria-label="Search"
           title="Search (⌘K)"
           onClick={() => window.dispatchEvent(new CustomEvent(OPEN_SEARCH_EVENT))}
+          onPointerEnter={() => soundManager.play("hover")}
         >
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <svg
+            className="search-icon"
+            viewBox="0 0 24 24"
+            width="17"
+            height="17"
+            aria-hidden="true"
+          >
             <circle
               cx="10.5"
               cy="10.5"
-              r="6"
+              r="5.75"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
             />
+            <circle cx="10.5" cy="10.5" r="2.3" fill="currentColor" opacity="0.55" />
             <line
-              x1="15"
-              y1="15"
-              x2="20"
-              y2="20"
+              x1="14.9"
+              y1="14.9"
+              x2="19.6"
+              y2="19.6"
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"

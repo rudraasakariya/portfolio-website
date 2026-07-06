@@ -11,13 +11,6 @@ const FADE_MS = 450;
 
 const RAY_ANGLES = [0, 45, 90, 135, 180, 225, 270, 315] as const;
 
-/** Star positions for the dark-mode sky, in the 24×24 viewBox. */
-const STARS = [
-  { cx: 19.5, cy: 5, r: 1.0 },
-  { cx: 22, cy: 9.5, r: 0.7 },
-  { cx: 17.5, cy: 2.5, r: 0.55 },
-] as const;
-
 function applyTheme(theme: Theme): void {
   document.documentElement.setAttribute("data-theme", theme);
   try {
@@ -72,43 +65,39 @@ export function ThemeToggle(): React.JSX.Element {
         height="20"
         aria-hidden="true"
       >
-        <mask id="theme-moon-mask">
-          <rect width="24" height="24" fill="white" />
-          <circle className="moon-bite" cx="26" cy="9" r="7" fill="black" />
-        </mask>
-        <circle
-          className="sun-core"
-          cx="12"
-          cy="12"
-          r="5.2"
-          fill="currentColor"
-          mask="url(#theme-moon-mask)"
-        />
-        <g className="rays">
-          {RAY_ANGLES.map((angle, index) => (
-            <circle
-              key={angle}
-              className="ray"
-              style={{ "--ray-index": index } as React.CSSProperties}
-              cx="12"
-              cy="3.1"
-              r="1.4"
-              fill="currentColor"
-            />
-          ))}
+        <g className="sun-group">
+          <circle className="sun-core" cx="12" cy="12" r="4.6" fill="currentColor" />
+          <g className="rays">
+            {RAY_ANGLES.map((angle, index) => (
+              <circle
+                key={angle}
+                className="ray"
+                style={{ "--ray-index": index } as React.CSSProperties}
+                cx="12"
+                cy="3.1"
+                r="1.4"
+                fill="currentColor"
+              />
+            ))}
+          </g>
         </g>
-        <g className="stars">
-          {STARS.map((star, index) => (
-            <circle
-              key={star.cx}
-              className="star"
-              style={{ "--star-index": index } as React.CSSProperties}
-              cx={star.cx}
-              cy={star.cy}
-              r={star.r}
-              fill="currentColor"
-            />
-          ))}
+        <g className="moon-group">
+          {/* Feather-style crescent, mirrored so the opening faces up-left. */}
+          <path
+            className="moon-shape"
+            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+            transform="scale(-1 1) translate(-24 0)"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            className="moon-star"
+            d="M7 3.4l0.72 1.74 1.74 0.72-1.74 0.72L7 8.32l-0.72-1.74-1.74-0.72 1.74-0.72z"
+            fill="currentColor"
+          />
         </g>
       </svg>
     </button>
