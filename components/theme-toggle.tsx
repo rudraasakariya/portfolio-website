@@ -82,22 +82,25 @@ export function ThemeToggle(): React.JSX.Element {
           </g>
         </g>
         <g className="moon-group">
-          {/* Feather-style crescent, mirrored so the opening faces up-left. */}
-          <path
-            className="moon-shape"
-            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-            transform="scale(-1 1) translate(-24 0)"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            className="moon-star"
-            d="M7 3.4l0.72 1.74 1.74 0.72-1.74 0.72L7 8.32l-0.72-1.74-1.74-0.72 1.74-0.72z"
-            fill="currentColor"
-          />
+          {/* Sized down ~12% so the crescent matches the sun's optical weight. */}
+          <g transform="translate(12 12) scale(0.88) translate(-12 -12)">
+            {/* Feather-style crescent, mirrored so the opening faces up-left. */}
+            <path
+              className="moon-shape"
+              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+              transform="scale(-1 1) translate(-24 0)"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              className="moon-star"
+              d="M7 3.4l0.72 1.74 1.74 0.72-1.74 0.72L7 8.32l-0.72-1.74-1.74-0.72 1.74-0.72z"
+              fill="currentColor"
+            />
+          </g>
         </g>
       </svg>
     </button>

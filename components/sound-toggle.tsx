@@ -37,7 +37,7 @@ export function SoundToggle(): React.JSX.Element {
       className="sound-btn"
       data-muted={muted}
     >
-      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
         <path
           d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z"
           fill="currentColor"
