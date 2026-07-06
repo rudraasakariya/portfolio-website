@@ -37,13 +37,21 @@ function prefersReducedMotion(): boolean {
  */
 export function ThemeToggle(): React.JSX.Element {
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const transitioningRef = useRef(false);
 
   const handleClick = (): void => {
-    const current = document.documentElement.getAttribute("data-theme");
+    const root = document.documentElement;
+    const current = root.getAttribute("data-theme");
     const next: Theme = current === "dark" ? "light" : "dark";
     soundManager.play(next === "light" ? "theme-light" : "theme-dark");
 
-    if (!document.startViewTransition || prefersReducedMotion()) {
+    // Rapid re-clicks while a wipe is running switch instantly instead of
+    // aborting the active transition mid-circle.
+    if (
+      !document.startViewTransition ||
+      prefersReducedMotion() ||
+      transitioningRef.current
+    ) {
       applyTheme(next);
       return;
     }
@@ -56,21 +64,16 @@ export function ThemeToggle(): React.JSX.Element {
       Math.max(originY, window.innerHeight - originY),
     );
 
+    root.style.setProperty("--vt-x", `${originX}px`);
+    root.style.setProperty("--vt-y", `${originY}px`);
+    root.style.setProperty("--vt-r", `${radius}px`);
+    root.classList.add("theme-switching");
+    transitioningRef.current = true;
+
     const transition = document.startViewTransition(() => applyTheme(next));
-    void transition.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${originX}px ${originY}px)`,
-            `circle(${radius}px at ${originX}px ${originY}px)`,
-          ],
-        },
-        {
-          duration: 550,
-          easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      );
+    void transition.finished.finally(() => {
+      root.classList.remove("theme-switching");
+      transitioningRef.current = false;
     });
   };
 
@@ -79,6 +82,7 @@ export function ThemeToggle(): React.JSX.Element {
       ref={buttonRef}
       type="button"
       onClick={handleClick}
+      onPointerEnter={() => soundManager.play("hover")}
       aria-label="Toggle dark mode"
       className="theme-btn"
     >
@@ -103,17 +107,14 @@ export function ThemeToggle(): React.JSX.Element {
         />
         <g className="rays">
           {RAY_ANGLES.map((angle, index) => (
-            <line
+            <circle
               key={angle}
               className="ray"
               style={{ "--ray-index": index } as React.CSSProperties}
-              x1="12"
-              y1="2.2"
-              x2="12"
-              y2="4.6"
-              stroke="currentColor"
-              strokeWidth="1.9"
-              strokeLinecap="round"
+              cx="12"
+              cy="3.1"
+              r="1.4"
+              fill="currentColor"
             />
           ))}
         </g>

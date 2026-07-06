@@ -1,4 +1,12 @@
-export type SoundName = "theme-light" | "theme-dark" | "tick" | "success";
+export type SoundName =
+  | "theme-light"
+  | "theme-dark"
+  | "tick"
+  | "hover"
+  | "mute"
+  | "unmute"
+  | "pluck"
+  | "success";
 
 export const SOUND_STORAGE_KEY = "rs-portfolio-sound";
 
@@ -114,23 +122,38 @@ class SoundManager {
     switch (name) {
       case "theme-light":
         // Rising two-note plink, like a light warming up.
-        this.tone(392, { duration: 0.12, peakGain: 0.05 });
-        this.tone(587.33, { at: 0.075, duration: 0.2, peakGain: 0.06 });
-        this.tone(1174.66, { at: 0.075, duration: 0.18, peakGain: 0.015 });
+        this.tone(392, { duration: 0.12, peakGain: 0.11 });
+        this.tone(587.33, { at: 0.075, duration: 0.2, peakGain: 0.13 });
+        this.tone(1174.66, { at: 0.075, duration: 0.18, peakGain: 0.035 });
         break;
       case "theme-dark":
         // Falling, softer — the same motif inverted.
-        this.tone(587.33, { duration: 0.12, type: "triangle", peakGain: 0.05 });
-        this.tone(392, { at: 0.075, duration: 0.22, type: "triangle", peakGain: 0.05 });
+        this.tone(587.33, { duration: 0.12, type: "triangle", peakGain: 0.11 });
+        this.tone(392, { at: 0.075, duration: 0.22, type: "triangle", peakGain: 0.11 });
         break;
       case "tick":
-        this.tone(1800, { duration: 0.04, type: "square", peakGain: 0.02, glideTo: 1200 });
+        this.tone(1800, { duration: 0.045, type: "square", peakGain: 0.05, glideTo: 1200 });
+        break;
+      case "hover":
+        this.tone(2400, { duration: 0.03, type: "sine", peakGain: 0.025, glideTo: 2000 });
+        break;
+      case "mute":
+        // Descending "off" thud.
+        this.tone(520, { duration: 0.09, type: "triangle", peakGain: 0.1, glideTo: 260 });
+        break;
+      case "unmute":
+        // Ascending "on" pop.
+        this.tone(330, { duration: 0.07, type: "triangle", peakGain: 0.09, glideTo: 660 });
+        this.tone(990, { at: 0.06, duration: 0.1, peakGain: 0.05 });
+        break;
+      case "pluck":
+        this.tone(640, { duration: 0.09, type: "triangle", peakGain: 0.07, glideTo: 480 });
         break;
       case "success":
-        this.tone(523.25, { duration: 0.16, peakGain: 0.05 });
-        this.tone(659.25, { at: 0.09, duration: 0.16, peakGain: 0.05 });
-        this.tone(783.99, { at: 0.18, duration: 0.28, peakGain: 0.055 });
-        this.tone(1567.98, { at: 0.18, duration: 0.24, peakGain: 0.015 });
+        this.tone(523.25, { duration: 0.16, peakGain: 0.11 });
+        this.tone(659.25, { at: 0.09, duration: 0.16, peakGain: 0.11 });
+        this.tone(783.99, { at: 0.18, duration: 0.28, peakGain: 0.12 });
+        this.tone(1567.98, { at: 0.18, duration: 0.24, peakGain: 0.035 });
         break;
     }
   }

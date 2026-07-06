@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import Link from "next/link";
 
+import { MagneticField } from "@/components/home/magnetic-field";
 import { Magnetic } from "@/components/motion/magnetic";
 import { HERO } from "@/lib/content/home";
 import { ROUTES, SITE } from "@/lib/site-config";
@@ -134,11 +135,9 @@ export function Hero(): React.JSX.Element {
         />
         <motion.div
           variants={portrait}
-          className="stripes relative flex aspect-[1/1.05] items-center justify-center rounded-[16px] border border-(--border)"
+          className="relative aspect-[1/1.05] overflow-hidden rounded-[16px] border border-(--border) bg-(--card-bg)"
         >
-          <span className="font-mono text-[12px] font-medium text-(--text-muted)">
-            headshot
-          </span>
+          <MagneticField />
         </motion.div>
       </div>
     </motion.div>

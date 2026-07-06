@@ -17,10 +17,13 @@ export function SoundToggle(): React.JSX.Element {
   );
 
   const handleClick = (): void => {
-    soundManager.toggleMuted();
     if (muted) {
-      // We just unmuted — confirm audibly.
-      soundManager.play("tick");
+      soundManager.toggleMuted();
+      soundManager.play("unmute");
+    } else {
+      // Play the "off" thud while still audible, then mute.
+      soundManager.play("mute");
+      soundManager.toggleMuted();
     }
   };
 
@@ -28,6 +31,7 @@ export function SoundToggle(): React.JSX.Element {
     <button
       type="button"
       onClick={handleClick}
+      onPointerEnter={() => soundManager.play("hover")}
       aria-label={muted ? "Unmute interface sounds" : "Mute interface sounds"}
       aria-pressed={!muted}
       className="sound-btn"

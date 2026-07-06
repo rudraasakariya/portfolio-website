@@ -91,9 +91,31 @@ a {
   transition: background 0.2s, transform 0.15s ease;
 }
 
+.theme-btn:hover,
+.sound-btn:hover {
+  transform: scale(1.1);
+  background: var(--accent);
+  color: #fff;
+}
+
 .theme-btn:active,
 .sound-btn:active {
   transform: scale(0.88);
+}
+
+/* Waves wiggle when hovering the (audible) sound button. */
+.sound-btn:not([data-muted="true"]):hover .sound-wave-1 {
+  animation: wave-wiggle 0.5s ease-in-out;
+}
+
+.sound-btn:not([data-muted="true"]):hover .sound-wave-2 {
+  animation: wave-wiggle 0.5s ease-in-out 80ms;
+}
+
+@keyframes wave-wiggle {
+  0%, 100% { transform: translateX(0); }
+  35% { transform: translateX(1.6px); }
+  70% { transform: translateX(-0.8px); }
 }
 
 .theme-icon {
@@ -163,6 +185,101 @@ a {
 @keyframes star-twinkle {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.35; }
+}
+
+/* Magnetic field configurator (hero art) */
+.field-gear {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-tertiary);
+  background: var(--card-bg);
+  transition: transform 0.35s cubic-bezier(0.34, 1.6, 0.5, 1), color 0.2s, background 0.2s;
+}
+
+.field-gear:hover {
+  color: var(--accent);
+  transform: rotate(60deg) scale(1.1);
+}
+
+.field-gear[data-open="true"] {
+  color: var(--accent);
+  transform: rotate(120deg);
+}
+
+.field-panel {
+  position: absolute;
+  top: 48px;
+  right: 12px;
+  width: 210px;
+  padding: 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  animation: panel-pop 0.25s cubic-bezier(0.34, 1.5, 0.5, 1) both;
+}
+
+@keyframes panel-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.field-control {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.field-control span {
+  display: block;
+  margin-bottom: 4px;
+  font: 500 10px var(--font-plex-mono), monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.field-control input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.field-action {
+  flex: 1;
+  padding: 7px 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  cursor: pointer;
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  font: 500 11px var(--font-plex-mono), monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.field-action:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.field-action:active {
+  transform: scale(0.95);
 }
 
 /* Availability dot breathes gently. */
@@ -428,18 +545,35 @@ a {
 /* as a circle from the toggle (clip-path animated from JS).           */
 /* ------------------------------------------------------------------ */
 
-::view-transition-old(root),
-::view-transition-new(root) {
+::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
   z-index: 1;
 }
 
+/* The circle is driven entirely by CSS (custom props set before the
+   transition starts) so there is no JS-timing flash frame. */
 ::view-transition-new(root) {
+  mix-blend-mode: normal;
   z-index: 2;
+  animation: vt-circle-reveal 560ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes vt-circle-reveal {
+  from {
+    clip-path: circle(0px at var(--vt-x, 100%) var(--vt-y, 0%));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 100%) var(--vt-y, 0%));
+  }
+}
+
+/* While the circle wipes, per-element color transitions would repaint a
+   second time inside it — freeze them all except the toggle's own
+   choreography. */
+.theme-switching *:not(.theme-btn, .theme-btn *) {
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
 }
 
 /* Visible keyboard focus everywhere, in the accent color. */
