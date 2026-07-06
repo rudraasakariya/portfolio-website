@@ -12,6 +12,7 @@ export type ProjectLayout = "featured-side" | "featured-wide" | "standard";
 
 export interface Project {
   id: string;
+  year: string;
   title: string;
   tagline: string;
   eyebrow: string;
@@ -32,6 +33,7 @@ export interface Project {
 export const PROJECTS: ReadonlyArray<Project> = [
   {
     id: "sparsh",
+    year: "2025",
     title: "Sparsh",
     tagline: "Cross-platform clipboard & file sharing",
     eyebrow: "Featured · Full-Stack / Web",
@@ -51,6 +53,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
   },
   {
     id: "wikipedia-crawler",
+    year: "2026",
     title: "Multithreaded Wikipedia Crawler",
     tagline: "BFS shortest-path finder between Wikipedia articles",
     eyebrow: "Systems & Native",
@@ -69,6 +72,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
   },
   {
     id: "rutgers-tutoring-platform",
+    year: "2025–26",
     title: "Rutgers Tutoring Ops Platform",
     tagline: "Department-wide platform for 1,500 students & 60 tutors",
     eyebrow: "Full-Stack / Web · Rutgers",
@@ -87,6 +91,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
   },
   {
     id: "channelseal-portal",
+    year: "2025",
     title: "ChannelSeal Governance Portal",
     tagline: "Multi-tenant governance portal, weekly release cadence",
     eyebrow: "Full-Stack / Web · ChannelSeal",

@@ -101,15 +101,86 @@ a {
 .sound-btn {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-strong);
   border-radius: 50%;
   padding: 0;
   cursor: pointer;
   color: var(--accent);
-  background: var(--accent-soft);
-  transition: background 0.2s, transform 0.15s ease;
+  background: var(--card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: background 0.2s, border-color 0.2s, transform 0.15s ease;
+}
+
+/* Floating-circle nav chrome (Olivier-style) */
+.nav-chip {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, background 0.2s, border-color 0.2s;
+}
+
+.nav-chip:hover {
+  transform: scale(1.06);
+}
+
+.nav-pill {
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--code-bg);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.nav-segment {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+}
+
+/* Soft showcase panels (home) */
+.showcase-card {
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--code-bg);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+/* Hero pebbles */
+.pebble {
+  position: absolute;
+  display: block;
+  border-radius: 35%;
+  background: var(--code-bg);
+  border: 1px solid var(--border-strong);
+  animation: pebble-bob 5.5s ease-in-out infinite;
+}
+
+@keyframes pebble-bob {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pebble {
+    animation: none;
+  }
 }
 
 .theme-btn:hover,
