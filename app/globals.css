@@ -128,7 +128,8 @@ a {
 
 .theme-btn,
 .sound-btn,
-.search-btn {
+.search-btn,
+.menu-btn {
   display: grid;
   place-items: center;
   width: 36px;
@@ -215,7 +216,8 @@ a {
 
 .theme-btn:hover,
 .sound-btn:hover,
-.search-btn:hover {
+.search-btn:hover,
+.menu-btn:hover {
   transform: scale(1.1);
   background: var(--accent);
   color: #fff;
@@ -223,7 +225,8 @@ a {
 
 .theme-btn:active,
 .sound-btn:active,
-.search-btn:active {
+.search-btn:active,
+.menu-btn:active {
   transform: scale(0.88);
 }
 
@@ -1420,6 +1423,75 @@ a {
   cursor: pointer;
 }
 
+
+/* ------------------------------------------------------------------ */
+/* Mobile navigation (hamburger chip + dropdown panel, below sm)       */
+/* ------------------------------------------------------------------ */
+
+.menu-line {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  transform-origin: 12px 12px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.42, 1), opacity 0.2s ease;
+}
+
+/* Burger morphs into an X while the panel is open. */
+.menu-btn[aria-expanded="true"] .menu-line-top {
+  transform: translateY(4.5px) rotate(45deg);
+}
+
+.menu-btn[aria-expanded="true"] .menu-line-mid {
+  opacity: 0;
+}
+
+.menu-btn[aria-expanded="true"] .menu-line-bot {
+  transform: translateY(-4.5px) rotate(-45deg);
+}
+
+.mobile-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 7vw;
+  left: 7vw;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--card-bg);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+}
+
+.mobile-panel-link {
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: background 0.15s, color 0.15s;
+}
+
+.mobile-panel-link:hover {
+  color: var(--text-primary);
+}
+
+.mobile-panel-link.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.mobile-panel-divider {
+  margin: 6px 8px;
+  border-top: 1px solid var(--border);
+}
+
 }
 
 
@@ -1474,7 +1546,8 @@ a {
 
 .theme-btn:focus-visible,
 .sound-btn:focus-visible,
-.search-btn:focus-visible {
+.search-btn:focus-visible,
+.menu-btn:focus-visible {
   border-radius: 50%;
 }
 
@@ -1493,6 +1566,7 @@ a {
   .search-icon,
   .sound-wave,
   .sound-slash,
+  .menu-line,
   .search-flash,
   .proj-card::after {
     transition: none !important;

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, useState } from "react";
 
+import { MobileMenu } from "@/components/mobile-menu";
 import { SoundToggle } from "@/components/sound-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { OPEN_SEARCH_EVENT } from "@/lib/search/config";
@@ -145,14 +146,16 @@ export function SiteNav(): React.JSX.Element {
         </button>
         <SoundToggle />
         <ThemeToggle />
+        {/* Below sm the résumé lives inside the mobile menu instead. */}
         <a
           href={SITE.resumePath}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-full border border-(--border-strong) bg-(--card-bg) px-[16px] py-2 font-mono text-[12px] font-medium text-(--text-primary) shadow-[0_2px_10px_rgba(0,0,0,0.05)]"
+          className="hidden rounded-full border border-(--border-strong) bg-(--card-bg) px-[16px] py-2 font-mono text-[12px] font-medium whitespace-nowrap text-(--text-primary) shadow-[0_2px_10px_rgba(0,0,0,0.05)] sm:inline-block"
         >
           Resume ↓
         </a>
+        <MobileMenu />
       </div>
     </nav>
   );
