@@ -549,46 +549,18 @@ a {
 /* as a circle from the toggle (clip-path animated from JS).           */
 /* ------------------------------------------------------------------ */
 
-::view-transition-old(root) {
-  animation: none;
-  mix-blend-mode: normal;
-  z-index: 1;
-}
-
-/* The circle is driven entirely by CSS (custom props set before the
-   transition starts) so there is no JS-timing flash frame. */
-/* Ease-out keeps revealed pixels-per-frame roughly constant, and the 90ms
-   delay (invisible — the toggle icon animates immediately) lets the GPU
-   finish rasterizing the full-page snapshot before any of it is revealed,
-   so 4K/120Hz displays don't flash unrasterized tiles. */
-::view-transition-new(root) {
-  mix-blend-mode: normal;
-  z-index: 2;
-  animation: vt-circle-reveal 520ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;
-}
-
-@keyframes vt-circle-reveal {
-  from {
-    clip-path: circle(0px at var(--vt-x, 100%) var(--vt-y, 0%));
-  }
-  to {
-    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 100%) var(--vt-y, 0%));
-  }
-}
-
-/* While the circle wipes, per-element color transitions would repaint a
-   second time inside it — freeze them all except the toggle's own
-   choreography. */
-.theme-switching *:not(.theme-btn, .theme-btn *) {
-  transition-duration: 0s !important;
+/* Theme switch: every element crossfades its colors with the SAME duration
+   and easing so the whole UI moves in step (the joshwcomeau.com approach).
+   Each element repaints once — no view-transition snapshots, so nothing
+   heavy to rasterize even at 4K/120Hz. The toggle button subtree is
+   excluded so its ray/star choreography keeps its own timing. */
+.theme-fade,
+.theme-fade *:not(.theme-btn, .theme-btn *) {
+  transition-property: color, background-color, border-color, fill, stroke,
+    box-shadow !important;
+  transition-duration: 0.35s !important;
+  transition-timing-function: ease !important;
   transition-delay: 0s !important;
-}
-
-/* Backdrop blur re-rasterizes a full-width strip every frame of the wipe
-   (and is a known view-transition artifact source). The nav bg is ~90%
-   opaque, so dropping the blur for 500ms is imperceptible. */
-.theme-switching nav {
-  backdrop-filter: none !important;
 }
 
 /* Visible keyboard focus everywhere, in the accent color. */

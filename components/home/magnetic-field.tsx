@@ -175,12 +175,6 @@ export function MagneticField(): React.JSX.Element {
     let running = false;
 
     const tick = (now: number): void => {
-      // Hold still during the theme wipe — per-frame SVG churn competes with
-      // the view transition for raster time and causes tile flashes.
-      if (document.documentElement.classList.contains("theme-switching")) {
-        frame = requestAnimationFrame(tick);
-        return;
-      }
       const { magnetism, flow, spacing } = fieldStore.getSnapshot();
       const t = now / 1000;
       const pointer = pointerRef.current;

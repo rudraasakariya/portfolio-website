@@ -7,6 +7,8 @@ import { THEME_STORAGE_KEY } from "@/lib/site-config";
 
 type Theme = "light" | "dark";
 
+const FADE_MS = 450;
+
 const RAY_ANGLES = [0, 45, 90, 135, 180, 225, 270, 315] as const;
 
 /** Star positions for the dark-mode sky, in the 24×24 viewBox. */
@@ -31,55 +33,32 @@ function prefersReducedMotion(): boolean {
 
 /**
  * Sun/moon toggle. The rays, moon bite, and stars are choreographed purely in
- * CSS off the root data-theme attribute (see globals.css), so the animation
- * needs no client state. The page itself switches inside a View Transition
- * that expands as a circle from the button, when the browser supports it.
+ * CSS off the root data-theme attribute (see globals.css). The page itself
+ * crossfades: a temporary .theme-fade class gives every element the same
+ * color transition so the whole UI moves in step — no view-transition
+ * snapshots, so there is nothing heavy to rasterize even at 4K/120Hz.
  */
 export function ThemeToggle(): React.JSX.Element {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const transitioningRef = useRef(false);
+  const fadeTimer = useRef<number>(0);
 
   const handleClick = (): void => {
     const root = document.documentElement;
-    const current = root.getAttribute("data-theme");
-    const next: Theme = current === "dark" ? "light" : "dark";
+    const next: Theme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
     soundManager.play(next === "light" ? "theme-light" : "theme-dark");
 
-    // Rapid re-clicks while a wipe is running switch instantly instead of
-    // aborting the active transition mid-circle.
-    if (
-      !document.startViewTransition ||
-      prefersReducedMotion() ||
-      transitioningRef.current
-    ) {
-      applyTheme(next);
-      return;
+    if (!prefersReducedMotion()) {
+      root.classList.add("theme-fade");
+      window.clearTimeout(fadeTimer.current);
+      fadeTimer.current = window.setTimeout(
+        () => root.classList.remove("theme-fade"),
+        FADE_MS,
+      );
     }
-
-    const rect = buttonRef.current?.getBoundingClientRect();
-    const originX = rect ? rect.left + rect.width / 2 : window.innerWidth;
-    const originY = rect ? rect.top + rect.height / 2 : 0;
-    const radius = Math.hypot(
-      Math.max(originX, window.innerWidth - originX),
-      Math.max(originY, window.innerHeight - originY),
-    );
-
-    root.style.setProperty("--vt-x", `${originX}px`);
-    root.style.setProperty("--vt-y", `${originY}px`);
-    root.style.setProperty("--vt-r", `${radius}px`);
-    root.classList.add("theme-switching");
-    transitioningRef.current = true;
-
-    const transition = document.startViewTransition(() => applyTheme(next));
-    void transition.finished.finally(() => {
-      root.classList.remove("theme-switching");
-      transitioningRef.current = false;
-    });
+    applyTheme(next);
   };
 
   return (
     <button
-      ref={buttonRef}
       type="button"
       onClick={handleClick}
       onPointerEnter={() => soundManager.play("hover")}
