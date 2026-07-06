@@ -100,6 +100,9 @@ const fieldStore = {
   },
 };
 
+/** Panel visibility survives route changes (module-level, session only). */
+let lastPanelOpen = false;
+
 /** Interpolate between angles along the shortest arc. */
 function lerpAngle(from: number, to: number, t: number): number {
   const delta = Math.atan2(Math.sin(to - from), Math.cos(to - from));
@@ -112,7 +115,12 @@ export function MagneticField(): React.JSX.Element {
     fieldStore.getSnapshot,
     fieldStore.getServerSnapshot,
   );
-  const [panelOpen, setPanelOpen] = useState(false);
+  const [panelOpen, setPanelOpenState] = useState(() => lastPanelOpen);
+
+  const setPanelOpen = (open: boolean): void => {
+    lastPanelOpen = open;
+    setPanelOpenState(open);
+  };
 
   const svgRef = useRef<SVGSVGElement>(null);
   const pointerRef = useRef<{ x: number; y: number } | null>(null);
@@ -332,10 +340,6 @@ export function MagneticField(): React.JSX.Element {
         ))}
       </svg>
 
-      <span className="pointer-events-none absolute bottom-3 left-4 font-mono text-[11px] font-medium text-(--text-muted)">
-        field.svg — move · click
-      </span>
-
       <button
         type="button"
         aria-label={panelOpen ? "Close field settings" : "Open field settings"}
@@ -344,7 +348,7 @@ export function MagneticField(): React.JSX.Element {
         data-open={panelOpen}
         onClick={() => {
           soundManager.play("tick");
-          setPanelOpen((open) => !open);
+          setPanelOpen(!panelOpen);
         }}
         onPointerEnter={() => soundManager.play("hover")}
       >
