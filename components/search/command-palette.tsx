@@ -4,12 +4,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type { SearchChunk } from "@/lib/search/chunks";
-import {
-  EMBEDDING_DTYPE,
-  OPEN_SEARCH_EVENT,
-  SEARCH_INDEX_PATH,
-  SEARCH_MODEL_ID,
-} from "@/lib/search/config";
+import { dot, loadEmbedder, loadIndex } from "@/lib/search/client";
+import { OPEN_SEARCH_EVENT } from "@/lib/search/config";
 import type { IndexedChunk, SearchIndex } from "@/lib/search/config";
 import { soundManager } from "@/lib/sound-manager";
 import { useAnchorJump } from "@/lib/use-anchor-jump";
@@ -35,13 +31,6 @@ const PLACEHOLDER = "Ask my portfolio…";
 const SUGGESTIONS = ["auth", "Docker", "clipboard sync", "Rutgers"] as const;
 const EMPTY_MESSAGE = "No matches — try different words.";
 
-class SearchIndexLoadError extends Error {
-  constructor(status: number) {
-    super(`search index request failed with status ${status}`);
-    this.name = "SearchIndexLoadError";
-  }
-}
-
 interface ScoredChunk {
   chunk: IndexedChunk;
   score: number;
@@ -50,44 +39,6 @@ interface ScoredChunk {
 interface SemanticResults {
   query: string;
   results: ReadonlyArray<ScoredChunk>;
-}
-
-type Embedder = (text: string) => Promise<ReadonlyArray<number>>;
-
-/* Both caches live at module level so the index and model survive route
-   changes and palette close/open cycles. */
-let indexPromise: Promise<SearchIndex> | null = null;
-let embedderPromise: Promise<Embedder> | null = null;
-
-function loadIndex(): Promise<SearchIndex> {
-  indexPromise ??= fetch(SEARCH_INDEX_PATH).then((response) => {
-    if (!response.ok) {
-      indexPromise = null;
-      throw new SearchIndexLoadError(response.status);
-    }
-    return response.json() as Promise<SearchIndex>;
-  });
-  return indexPromise;
-}
-
-function loadEmbedder(): Promise<Embedder> {
-  embedderPromise ??= (async (): Promise<Embedder> => {
-    try {
-      const { env, pipeline } = await import("@huggingface/transformers");
-      env.allowLocalModels = false;
-      const extractor = await pipeline("feature-extraction", SEARCH_MODEL_ID, {
-        dtype: EMBEDDING_DTYPE,
-      });
-      return async (text: string): Promise<ReadonlyArray<number>> => {
-        const output = await extractor(text, { pooling: "mean", normalize: true });
-        return Array.from(output.data as Float32Array);
-      };
-    } catch (error) {
-      embedderPromise = null;
-      throw error;
-    }
-  })();
-  return embedderPromise;
 }
 
 function tokenize(query: string): ReadonlyArray<string> {
@@ -116,15 +67,6 @@ function keywordScore(
     }
   }
   return hits / tokens.length;
-}
-
-/** Both vectors are normalized, so the dot product IS the cosine similarity. */
-function dot(a: ReadonlyArray<number>, b: ReadonlyArray<number>): number {
-  let sum = 0;
-  for (let i = 0; i < a.length; i += 1) {
-    sum += a[i] * b[i];
-  }
-  return sum;
 }
 
 export function CommandPalette(): React.JSX.Element {

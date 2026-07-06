@@ -3,8 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
-import { Reveal } from "@/components/motion/reveal";
-import { ARCH_NODES, ARCHITECTURE, REQUEST_CYCLE_ANCHOR } from "@/lib/content/architecture";
+import { ARCH_NODES, ARCHITECTURE } from "@/lib/content/architecture";
 import type { ArchNodeId } from "@/lib/content/architecture";
 import { soundManager } from "@/lib/sound-manager";
 
@@ -125,33 +124,9 @@ export function RequestCycle(): React.JSX.Element {
   const openNode = ARCH_NODES.find((node) => node.id === openDetail);
 
   return (
-    // Page chrome (width, padding) comes from the page that composes this.
-    <section id={REQUEST_CYCLE_ANCHOR}>
-      <Reveal>
-        <div className="showcase-card">
-          <div className="mb-7 flex flex-wrap items-start justify-between gap-5">
-            <div>
-              <div className="mb-3 font-mono text-[11px] font-medium tracking-[0.08em] text-(--text-muted) uppercase">
-                {ARCHITECTURE.eyebrow}
-              </div>
-              <h2 className="m-0 mb-2 text-[26px] leading-[1.2] font-semibold tracking-[-0.02em] text-(--text-primary)">
-                {ARCHITECTURE.heading}
-              </h2>
-              <p className="m-0 max-w-[560px] text-[15px] leading-[1.6] text-(--text-secondary)">
-                {ARCHITECTURE.intro}
-              </p>
-            </div>
-            <button
-              type="button"
-              className="rc-send"
-              onClick={handleSend}
-              disabled={running}
-            >
-              {running ? ARCHITECTURE.sendingLabel : ARCHITECTURE.sendLabel}
-            </button>
-          </div>
-
-          <div className="mx-auto max-w-[980px] overflow-x-auto">
+    // Section chrome (anchor, eyebrow, lead, width) comes from the page.
+    <div className="lab-frame">
+      <div className="rc-stage">
             <svg
               className="rc-svg"
               viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
@@ -282,8 +257,18 @@ export function RequestCycle(): React.JSX.Element {
                 </g>
               )}
             </svg>
-          </div>
+      </div>
 
+      <div className="rc-meta">
+        <button
+          type="button"
+          className="rc-send"
+          onClick={handleSend}
+          disabled={running}
+        >
+          {running ? ARCHITECTURE.sendingLabel : ARCHITECTURE.sendLabel}
+        </button>
+        <div className="rc-meta-text">
           <div className="rc-caption" aria-live="polite">
             {caption}
           </div>
@@ -296,7 +281,7 @@ export function RequestCycle(): React.JSX.Element {
             )}
           </div>
         </div>
-      </Reveal>
-    </section>
+      </div>
+    </div>
   );
 }

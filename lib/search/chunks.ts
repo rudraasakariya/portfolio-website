@@ -1,5 +1,9 @@
 import { BIO, EDUCATION, EXPERIENCE, SKILL_GROUPS } from "@/lib/content/about";
 import { ARCH_NODES, ARCHITECTURE, REQUEST_CYCLE_ANCHOR } from "@/lib/content/architecture";
+import {
+  EMBEDDING_MAP_ANCHOR,
+  RATE_LIMITER_ANCHOR,
+} from "@/lib/content/lab";
 import { CATEGORY_LABELS, PROJECTS } from "@/lib/content/projects";
 import { ROUTES, SITE } from "@/lib/site-config";
 
@@ -118,6 +122,22 @@ export function buildChunks(): SearchChunk[] {
     text: "Live object detection in the browser: a YOLOS transformer (ONNX) runs on-device over your webcam feed and draws labeled boxes in real time. No video ever leaves your device.",
     route: ROUTES.lab,
     anchor: VISION_DEMO_ANCHOR,
+  });
+
+  chunks.push({
+    id: EMBEDDING_MAP_ANCHOR,
+    label: "Lab — embedding map",
+    text: "The search's brain, visualized: every content chunk on this site embedded into vector space and flattened to a 2D PCA map. Type a query and watch it land near its nearest semantic neighbors.",
+    route: ROUTES.lab,
+    anchor: EMBEDDING_MAP_ANCHOR,
+  });
+
+  chunks.push({
+    id: RATE_LIMITER_ANCHOR,
+    label: "Lab — rate limiter",
+    text: "A live token-bucket rate limiter and queue simulator — tune arrival rate, bucket size, and refill rate, then watch requests deliver, queue, or drop. Built from the SoftScribble messaging pipeline work that cut failed sends 38%.",
+    route: ROUTES.lab,
+    anchor: RATE_LIMITER_ANCHOR,
   });
 
   chunks.push({

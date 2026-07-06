@@ -20,7 +20,7 @@ test.describe("lab page", () => {
       page.getByRole("button", { name: "Start camera" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "A real request, end to end" }),
+      page.getByRole("button", { name: /Send request/ }),
     ).toBeVisible();
   });
 
@@ -42,5 +42,47 @@ test.describe("lab page", () => {
     await expect(
       page.getByText(/cross-tutor reads are impossible/),
     ).toBeVisible();
+  });
+
+  test("embedding map renders every indexed chunk without the model", async ({
+    page,
+  }) => {
+    await page.goto("/lab");
+    const points = page.locator(".em-point");
+    await expect(points.first()).toBeVisible();
+    expect(await points.count()).toBeGreaterThanOrEqual(36);
+  });
+
+  test("rate limiter delivers, then drops more under heavier traffic", async ({
+    page,
+  }) => {
+    await page.goto("/lab");
+    await page.locator(".rl-svg").scrollIntoViewIfNeeded();
+
+    // Idle by default — traffic only flows after Start.
+    await page.getByRole("button", { name: "Start traffic" }).click();
+
+    // Delivered/s climbs above zero once the sim warms up.
+    await expect(async () => {
+      const text = await page
+        .locator(".rl-counters strong")
+        .first()
+        .textContent();
+      expect(Number(text)).toBeGreaterThan(0);
+    }).toPass({ timeout: 8000 });
+
+    // Max out arrivals: the bounded queue overflows and dropped % rises.
+    await page.locator("#rl-arrival").evaluate((el) => {
+      const input = el as HTMLInputElement;
+      input.value = "30";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    await expect(async () => {
+      const text = await page
+        .locator('[data-testid="rl-dropped"] strong')
+        .textContent();
+      expect(Number((text ?? "0").replace("%", ""))).toBeGreaterThan(0);
+    }).toPass({ timeout: 10000 });
   });
 });

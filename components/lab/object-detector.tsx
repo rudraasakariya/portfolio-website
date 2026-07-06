@@ -256,7 +256,7 @@ export function ObjectDetector(): React.JSX.Element {
 
   return (
     <div>
-      <div className="vision-frame">
+      <div className="lab-frame">
         <div className="vision-chrome">
           <span className="dot" />
           <span className="dot" />
@@ -264,7 +264,8 @@ export function ObjectDetector(): React.JSX.Element {
         </div>
         <div
           className="vision-stage"
-          style={{ aspectRatio: aspectRatio ?? "4 / 3" }}
+          // Idle frame matches its Lab siblings; live camera keeps its real ratio.
+          style={{ aspectRatio: aspectRatio ?? "16 / 10" }}
         >
           {/* Mirrored for a natural selfie view; boxes are flipped in draw. */}
           <video
