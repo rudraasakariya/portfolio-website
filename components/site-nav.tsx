@@ -61,8 +61,12 @@ export function SiteNav(): React.JSX.Element {
   }, [pathname]);
 
   return (
-    <nav className="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) bg-(--nav-bg) px-[7vw] py-4 backdrop-blur-[8px]">
-      <Link href={ROUTES.home} aria-label="Home" className="nav-chip font-mono text-[14px] font-semibold tracking-[0.02em]">
+    <nav className="sticky top-0 z-10 grid grid-cols-[1fr_auto_1fr] items-center border-b border-(--border) bg-(--nav-bg) px-[7vw] py-4 backdrop-blur-[8px]">
+      <Link
+        href={ROUTES.home}
+        aria-label="Home"
+        className="nav-chip justify-self-start font-mono text-[14px] font-semibold tracking-[0.02em]"
+      >
         {/* Small left pad counterweights the dot so the monogram reads
             optically centered — dead-centering either RS or RS. both look off. */}
         <span className="inline-block pl-[3px]">
@@ -71,7 +75,7 @@ export function SiteNav(): React.JSX.Element {
         </span>
       </Link>
 
-      <div className="nav-pill relative hidden sm:flex">
+      <div className="nav-pill relative hidden justify-self-center sm:flex">
         {segment !== null && (
           <motion.span
             aria-hidden
@@ -103,7 +107,7 @@ export function SiteNav(): React.JSX.Element {
         ))}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 justify-self-end">
         <button
           type="button"
           className="search-btn"
