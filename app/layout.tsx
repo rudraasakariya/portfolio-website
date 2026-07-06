@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
-import Script from "next/script";
 
 import "./globals.css";
 
@@ -31,9 +30,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={plexMono.variable} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeInitScript}
-        </Script>
+        {/* Plain parser-blocking script: next/script beforeInteractive runs
+            after first paint in the App Router, which flashed the light theme
+            before dark kicked in on reload. This runs before anything paints. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <Providers>
           <SiteNav />
           <div className="flex flex-1 flex-col">{children}</div>
