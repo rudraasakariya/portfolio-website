@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { MagneticField } from "@/components/home/magnetic-field";
 import { ProjectPreview } from "@/components/projects/project-preview";
 import { TiltPreview } from "@/components/projects/tilt-preview";
 import { Reveal } from "@/components/motion/reveal";
@@ -52,24 +51,6 @@ export function Showcase(): React.JSX.Element {
         </Reveal>
       ))}
 
-      <Reveal className="showcase-card md:grid md:grid-cols-[0.9fr_1.1fr] md:items-center md:gap-10">
-        <div className="mb-6 md:mb-0">
-          <div className="mb-3 font-mono text-[11px] font-medium tracking-[0.08em] text-(--text-muted) uppercase">
-            Playground · interactive
-          </div>
-          <h3 className="mb-2 text-[26px] leading-[1.2] font-semibold tracking-[-0.02em] text-(--text-primary)">
-            Magnetic field
-          </h3>
-          <p className="max-w-[400px] text-[15px] leading-[1.6] text-(--text-secondary)">
-            A little generative toy — the dashes align to your cursor like iron
-            filings. Click for a ripple, or open the gear to tune density,
-            magnetism, and flow. Your settings stick around.
-          </p>
-        </div>
-        <div className="relative h-[280px] overflow-hidden rounded-[14px] border border-(--border) bg-(--card-bg) md:h-[300px]">
-          <MagneticField />
-        </div>
-      </Reveal>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import Link from "next/link";
 
+import { MagneticField } from "@/components/home/magnetic-field";
 import { Pebbles } from "@/components/home/pebbles";
 import { Magnetic } from "@/components/motion/magnetic";
 import { HERO } from "@/lib/content/home";
@@ -37,11 +38,12 @@ export function Hero(): React.JSX.Element {
     <section className="relative overflow-hidden">
       <Pebbles />
       <motion.div
-        className="relative mx-auto flex max-w-[860px] flex-col items-center px-[7vw] pt-[11vh] pb-[9vh] text-center"
+        className="relative mx-auto grid w-full max-w-[1240px] items-center gap-14 px-[7vw] pt-[9vh] pb-[9vh] md:grid-cols-[1.05fr_0.95fr] md:gap-16"
         initial="hidden"
         animate="visible"
         variants={container}
       >
+        <div className="flex flex-col items-center text-center md:items-start md:text-left">
         <motion.div
           variants={rise}
           className="mb-7 inline-flex items-center gap-2 rounded-[20px] bg-(--accent-soft) py-[6px] pr-3 pl-2"
@@ -83,7 +85,10 @@ export function Hero(): React.JSX.Element {
           {HERO.valueProp}
         </motion.p>
 
-        <motion.div variants={rise} className="flex flex-wrap items-center justify-center gap-[14px]">
+        <motion.div
+          variants={rise}
+          className="flex flex-wrap items-center justify-center gap-[14px] md:justify-start"
+        >
           <Magnetic>
             <Link
               href={ROUTES.contact}
@@ -118,6 +123,19 @@ export function Hero(): React.JSX.Element {
           >
             GitHub
           </a>
+        </motion.div>
+        </div>
+
+        <motion.div variants={rise} className="relative">
+          {/* Accent slab peeking out behind the frame — the old hero's offset
+              card, translated into the redesign's soft rounded language. */}
+          <div
+            aria-hidden
+            className="absolute inset-0 translate-x-[16px] translate-y-[16px] rounded-[24px] bg-(--accent)"
+          />
+          <div className="relative h-[340px] overflow-hidden rounded-[24px] border border-(--border-strong) bg-(--card-bg) md:h-[440px]">
+            <MagneticField />
+          </div>
         </motion.div>
       </motion.div>
     </section>
