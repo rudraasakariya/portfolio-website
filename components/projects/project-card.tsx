@@ -7,6 +7,8 @@ interface ProjectCardProps {
 }
 
 interface ProjectCardRootProps extends ProjectCardProps {
+  /** Stagger position for the enter animation after a filter change. */
+  index?: number;
   /** Forwarded through to the motion card for AnimatePresence popLayout. */
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -88,10 +90,10 @@ function ActionRow({ project }: ProjectCardProps): React.JSX.Element | null {
   );
 }
 
-export function ProjectCard({ project, ref }: ProjectCardRootProps): React.JSX.Element {
+export function ProjectCard({ project, index, ref }: ProjectCardRootProps): React.JSX.Element {
   if (project.layout === "featured-side") {
     return (
-      <SpotlightCard ref={ref} className="proj-card md:col-span-2 md:grid md:grid-cols-2">
+      <SpotlightCard ref={ref} index={index} className="proj-card md:col-span-2 md:grid md:grid-cols-2">
         <div className="preview-frame md:h-auto md:border-r md:border-b-0 md:border-r-(--border)">
           <div className="chrome">
             <span className="dot" />
@@ -120,7 +122,7 @@ export function ProjectCard({ project, ref }: ProjectCardRootProps): React.JSX.E
 
   if (project.layout === "featured-wide") {
     return (
-      <SpotlightCard ref={ref} className="proj-card md:col-span-2">
+      <SpotlightCard ref={ref} index={index} className="proj-card md:col-span-2">
         <div className="preview-frame h-[140px]">
           <ProjectPreview caption={project.previewCaption} />
         </div>
@@ -138,7 +140,7 @@ export function ProjectCard({ project, ref }: ProjectCardRootProps): React.JSX.E
   }
 
   return (
-    <SpotlightCard ref={ref} className="proj-card">
+    <SpotlightCard ref={ref} index={index} className="proj-card">
       <div className="preview-frame">
         <ProjectPreview caption={project.previewCaption} />
       </div>

@@ -4,9 +4,12 @@
 /* Theme tokens — light (default) and dark, per design handoff README  */
 /* ------------------------------------------------------------------ */
 
-/* Registered so gradients built from them (preview stripes, hero glow)
-   crossfade in step with everything else — unregistered custom properties
-   in a background-image would snap instantly on theme change. */
+/* Registered so gradients built from them (the preview stripes) crossfade
+   in step with everything else — unregistered custom properties in a
+   background-image would snap instantly on theme change. Only variables
+   used in gradients are registered: solid-color surfaces already tween via
+   their own background-color transition, and tweening the variable AND the
+   property double-eases into a visible shimmer. */
 @property --stripe-a {
   syntax: "<color>";
   inherits: true;
@@ -17,12 +20,6 @@
   syntax: "<color>";
   inherits: true;
   initial-value: #e4e2dc;
-}
-
-@property --accent-soft {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: rgba(42, 99, 199, 0.08);
 }
 
 :root {
@@ -578,10 +575,18 @@ a {
 .theme-fade,
 .theme-fade *:not(.theme-btn, .theme-btn *) {
   transition-property: color, background-color, border-color, fill, stroke,
-    box-shadow, --stripe-a, --stripe-b, --accent-soft !important;
+    box-shadow, --stripe-a, --stripe-b !important;
   transition-duration: 0.35s !important;
   transition-timing-function: ease !important;
   transition-delay: 0s !important;
+}
+
+/* These surfaces get their color from the tweening stripe variables, so
+   their own background transition must not ALSO chase the moving value —
+   two stacked easings shimmer. They follow the variable directly. */
+.theme-fade .preview-frame,
+.theme-fade .preview-frame .chrome {
+  transition-property: border-color !important;
 }
 
 /* Visible keyboard focus everywhere, in the accent color. */

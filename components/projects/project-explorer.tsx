@@ -60,13 +60,15 @@ export function ProjectExplorer(): React.JSX.Element {
         <span className="cat-pill disabled">{COMING_SOON_LABEL}</span>
       </div>
 
-      <motion.div layout className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <AnimatePresence mode="popLayout" initial={false}>
-          {visible.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+          {visible.map((project, index) => (
+            // Re-keying by filter makes the whole set exit and re-enter with
+            // one uniform staggered pattern instead of mixed FLIP motions.
+            <ProjectCard key={`${filter}-${project.id}`} project={project} index={index} />
           ))}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </>
   );
 }
