@@ -22,6 +22,14 @@ interface ToneOptions {
   glideTo?: number;
 }
 
+/** Optional per-play tweaks — the Lab's synth panel bends sounds with these. */
+export interface PlayModifier {
+  /** Semitones up or down; 0 = the sound as designed. */
+  pitchShift?: number;
+  /** Stretches note lengths and their offsets; 1 = as designed. */
+  decayScale?: number;
+}
+
 /**
  * All sounds are synthesized with the Web Audio API — no audio files.
  * Mute preference persists to localStorage and is exposed through a
@@ -29,9 +37,14 @@ interface ToneOptions {
  */
 class SoundManager {
   private ctx: AudioContext | null = null;
+  private master: GainNode | null = null;
+  private analyserNode: AnalyserNode | null = null;
   private muted = false;
   private hydrated = false;
   private readonly listeners = new Set<() => void>();
+  /* Set per play() call; every tone() within that call reads them. */
+  private pitchFactor = 1;
+  private decayScale = 1;
 
   private hydrate(): void {
     if (this.hydrated || typeof window === "undefined") {
@@ -86,6 +99,27 @@ class SoundManager {
     return this.ctx;
   }
 
+  /** Master gain with an analyser tap — unity gain, so nothing sounds different. */
+  private ensureMaster(ctx: AudioContext): GainNode {
+    if (this.master === null || this.analyserNode === null) {
+      this.master = ctx.createGain();
+      this.analyserNode = ctx.createAnalyser();
+      this.analyserNode.fftSize = 2048;
+      this.master.connect(this.analyserNode).connect(ctx.destination);
+    }
+    return this.master;
+  }
+
+  /** Live waveform tap for visualizers (the Lab's synth panel). */
+  getAnalyser(): AnalyserNode | null {
+    const ctx = this.audioContext();
+    if (ctx === null) {
+      return null;
+    }
+    this.ensureMaster(ctx);
+    return this.analyserNode;
+  }
+
   private tone(frequency: number, options: ToneOptions = {}): void {
     const ctx = this.audioContext();
     if (ctx === null) {
@@ -93,32 +127,38 @@ class SoundManager {
     }
     const {
       at = 0,
-      duration = 0.15,
+      duration: baseDuration = 0.15,
       type = "sine",
       peakGain = 0.06,
       glideTo,
     } = options;
-    const start = ctx.currentTime + at;
+    const duration = baseDuration * this.decayScale;
+    const start = ctx.currentTime + at * this.decayScale;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = type;
-    osc.frequency.setValueAtTime(frequency, start);
+    osc.frequency.setValueAtTime(frequency * this.pitchFactor, start);
     if (glideTo !== undefined) {
-      osc.frequency.exponentialRampToValueAtTime(glideTo, start + duration);
+      osc.frequency.exponentialRampToValueAtTime(
+        glideTo * this.pitchFactor,
+        start + duration,
+      );
     }
     gain.gain.setValueAtTime(0, start);
     gain.gain.linearRampToValueAtTime(peakGain, start + 0.012);
     gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-    osc.connect(gain).connect(ctx.destination);
+    osc.connect(gain).connect(this.ensureMaster(ctx));
     osc.start(start);
     osc.stop(start + duration + 0.05);
   }
 
-  play(name: SoundName): void {
+  play(name: SoundName, modifier: PlayModifier = {}): void {
     this.hydrate();
     if (this.muted) {
       return;
     }
+    this.pitchFactor = 2 ** ((modifier.pitchShift ?? 0) / 12);
+    this.decayScale = modifier.decayScale ?? 1;
     switch (name) {
       case "theme-light":
         // Rising two-note plink, like a light warming up.

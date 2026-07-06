@@ -1308,13 +1308,15 @@ a {
   color: var(--text-primary);
 }
 
-.rl-controls {
+.rl-controls,
+.sy-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
 }
 
-.rl-control {
+.rl-control,
+.sy-control {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1323,9 +1325,99 @@ a {
   color: var(--text-secondary);
 }
 
-.rl-control input[type="range"] {
+.rl-control input[type="range"],
+.sy-control input[type="range"] {
   width: 110px;
   accent-color: var(--accent);
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Synth panel (lab) — the site's real UI sounds, playable             */
+/* ------------------------------------------------------------------ */
+
+.sy-scope {
+  border-bottom: 1px solid var(--border);
+  background: var(--code-bg);
+  transition: background 0.25s;
+}
+
+.sy-scope[data-active="true"] {
+  background: var(--accent-soft);
+}
+
+.sy-canvas {
+  display: block;
+  width: 100%;
+  height: 96px;
+}
+
+.sy-pads {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 16px;
+}
+
+@media (max-width: 560px) {
+  .sy-pads {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.sy-pad {
+  padding: 12px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--code-bg);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.sy-pad:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sy-pad:active:not(:disabled) {
+  transform: scale(0.94);
+  background: var(--accent-soft);
+}
+
+.sy-pad:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sy-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.sy-muted-note {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.sy-unmute {
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
 }
 
 }

@@ -3,6 +3,7 @@ import { ARCH_NODES, ARCHITECTURE, REQUEST_CYCLE_ANCHOR } from "@/lib/content/ar
 import {
   EMBEDDING_MAP_ANCHOR,
   RATE_LIMITER_ANCHOR,
+  SYNTH_ANCHOR,
 } from "@/lib/content/lab";
 import { CATEGORY_LABELS, PROJECTS } from "@/lib/content/projects";
 import { ROUTES, SITE } from "@/lib/site-config";
@@ -138,6 +139,14 @@ export function buildChunks(): SearchChunk[] {
     text: "A live token-bucket rate limiter and queue simulator — tune arrival rate, bucket size, and refill rate, then watch requests deliver, queue, or drop. Built from the SoftScribble messaging pipeline work that cut failed sends 38%.",
     route: ROUTES.lab,
     anchor: RATE_LIMITER_ANCHOR,
+  });
+
+  chunks.push({
+    id: SYNTH_ANCHOR,
+    label: "Synth panel",
+    text: "Every UI sound on this site is synthesized live with the Web Audio API — no audio files anywhere. The Lab's synth panel plays the actual interface sounds and bends their pitch and decay, with a live oscilloscope of the waveform.",
+    route: ROUTES.lab,
+    anchor: SYNTH_ANCHOR,
   });
 
   chunks.push({

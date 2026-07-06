@@ -5,12 +5,15 @@ import { ExperimentSection } from "@/components/lab/experiment-section";
 import { ObjectDetector } from "@/components/lab/object-detector";
 import { RateLimiter } from "@/components/lab/rate-limiter";
 import { RequestCycle } from "@/components/lab/request-cycle";
+import { SynthPanel } from "@/components/lab/synth-panel";
 import { ARCHITECTURE, REQUEST_CYCLE_ANCHOR } from "@/lib/content/architecture";
 import {
   EMBEDDING_MAP,
   EMBEDDING_MAP_ANCHOR,
   RATE_LIMITER,
   RATE_LIMITER_ANCHOR,
+  SYNTH,
+  SYNTH_ANCHOR,
   VISION,
 } from "@/lib/content/lab";
 import { VISION_DEMO_ANCHOR } from "@/lib/search/chunks";
@@ -68,6 +71,14 @@ export default function LabPage(): React.JSX.Element {
         lead={ARCHITECTURE.intro}
       >
         <RequestCycle />
+      </ExperimentSection>
+
+      <ExperimentSection
+        anchor={SYNTH_ANCHOR}
+        eyebrow={SYNTH.eyebrow}
+        lead={SYNTH.lead}
+      >
+        <SynthPanel />
       </ExperimentSection>
     </main>
   );

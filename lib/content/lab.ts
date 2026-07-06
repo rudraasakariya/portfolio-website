@@ -1,6 +1,7 @@
 /** Scroll targets shared by the Lab sections and the search index. */
 export const EMBEDDING_MAP_ANCHOR = "embedding-map";
 export const RATE_LIMITER_ANCHOR = "rate-limiter";
+export const SYNTH_ANCHOR = "synth";
 
 export const VISION = {
   eyebrow: "Vision · on-device ML",
@@ -17,6 +18,17 @@ export const EMBEDDING_MAP = {
   offlineNote:
     "Model unavailable right now — the map still shows every indexed chunk.",
   queryLabel: "your query",
+} as const;
+
+export const SYNTH = {
+  eyebrow: "Sound · Web Audio",
+  lead: "No audio files anywhere on this site — every click and chime is synthesized the moment you hear it. This is the actual instrument: play it, bend it.",
+  knobs: {
+    pitch: "Pitch",
+    decay: "Decay",
+  },
+  mutedNote: "Interface sounds are muted right now.",
+  unmuteLabel: "Unmute",
 } as const;
 
 export const RATE_LIMITER = {

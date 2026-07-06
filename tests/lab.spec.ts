@@ -53,6 +53,19 @@ test.describe("lab page", () => {
     expect(await points.count()).toBeGreaterThanOrEqual(36);
   });
 
+  test("synth pads play the real sounds and light the scope", async ({
+    page,
+  }) => {
+    await page.goto("/lab");
+    const pads = page.locator(".sy-pad");
+    await expect(pads).toHaveCount(8);
+    await expect(page.locator(".sy-control")).toHaveCount(2);
+
+    await pads.first().scrollIntoViewIfNeeded();
+    await pads.first().click();
+    await expect(page.locator('.sy-scope[data-active="true"]')).toHaveCount(1);
+  });
+
   test("rate limiter delivers, then drops more under heavier traffic", async ({
     page,
   }) => {
