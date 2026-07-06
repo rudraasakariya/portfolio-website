@@ -19,8 +19,9 @@ const EMBED_DEBOUNCE_MS = 120;
 /** Semantic similarity dominates; keywords give exact matches a nudge. */
 const SEMANTIC_WEIGHT = 0.85;
 const KEYWORD_WEIGHT = 0.15;
-/** Blended score below which a semantic match is noise, not a result. */
-const MIN_SEMANTIC_SCORE = 0.18;
+/** Blended score below which a semantic match is noise, not a result.
+    Measured: junk queries ("AI") top out ≈0.16 blended, real matches ≥0.26. */
+const MIN_SEMANTIC_SCORE = 0.22;
 
 type SearchMode = "keyword" | "warming" | "semantic";
 
@@ -31,7 +32,7 @@ const MODE_LABELS: Record<SearchMode, string> = {
 };
 
 const PLACEHOLDER = "Ask my portfolio…";
-const HINT = "Try “auth”, “testing”, “clipboard sync”, or “Rutgers”.";
+const HINT = "Try “auth”, “Docker”, “clipboard sync”, or “Rutgers”.";
 const EMPTY_MESSAGE = "No matches — try different words.";
 
 class SearchIndexLoadError extends Error {
@@ -96,6 +97,10 @@ function tokenize(query: string): ReadonlyArray<string> {
     .filter((token) => token.length > 1);
 }
 
+const WORD_SPLIT = /[^a-z0-9]+/;
+
+/** Tokens must match at word starts — substring matching let "ai" hit words
+    like "main" and surface projects with no AI in them at all. */
 function keywordScore(
   tokens: ReadonlyArray<string>,
   chunk: SearchChunk,
@@ -103,10 +108,10 @@ function keywordScore(
   if (tokens.length === 0) {
     return 0;
   }
-  const haystack = `${chunk.label} ${chunk.text}`.toLowerCase();
+  const words = `${chunk.label} ${chunk.text}`.toLowerCase().split(WORD_SPLIT);
   let hits = 0;
   for (const token of tokens) {
-    if (haystack.includes(token)) {
+    if (words.some((word) => word.startsWith(token))) {
       hits += 1;
     }
   }
