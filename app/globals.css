@@ -98,7 +98,8 @@ a {
 /* ------------------------------------------------------------------ */
 
 .theme-btn,
-.sound-btn {
+.sound-btn,
+.search-btn {
   display: grid;
   place-items: center;
   width: 36px;
@@ -184,14 +185,16 @@ a {
 }
 
 .theme-btn:hover,
-.sound-btn:hover {
+.sound-btn:hover,
+.search-btn:hover {
   transform: scale(1.1);
   background: var(--accent);
   color: #fff;
 }
 
 .theme-btn:active,
-.sound-btn:active {
+.sound-btn:active,
+.search-btn:active {
   transform: scale(0.88);
 }
 
@@ -633,7 +636,157 @@ a {
   color: var(--text-muted);
 }
 
+/* ------------------------------------------------------------------ */
+/* Cmd+K "Ask my portfolio" search palette                             */
+/* ------------------------------------------------------------------ */
+
+.palette-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 14vh 20px 20px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
+
+.palette-panel {
+  width: 100%;
+  max-width: 560px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--card-bg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+}
+
+.palette-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.palette-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.palette-input::placeholder {
+  color: var(--text-muted);
+}
+
+.palette-status {
+  flex: none;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.palette-status[data-mode="semantic"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.palette-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 46vh;
+  margin: 0;
+  padding: 8px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.palette-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.palette-item.active {
+  background: var(--accent-soft);
+}
+
+.palette-item-label {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.palette-item-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.palette-empty,
+.palette-hint {
+  padding: 22px 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.palette-foot {
+  display: flex;
+  gap: 14px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Search results pulse their landing spot in the accent color. */
+.search-flash {
+  border-radius: 10px;
+  animation: search-flash-pulse 1.6s ease-out;
+}
+
+@keyframes search-flash-pulse {
+  0% {
+    background-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+}
+
 
 /* ------------------------------------------------------------------ */
 /* Theme switch runs inside a View Transition: the new theme expands   */
@@ -685,7 +838,8 @@ a {
 }
 
 .theme-btn:focus-visible,
-.sound-btn:focus-visible {
+.sound-btn:focus-visible,
+.search-btn:focus-visible {
   border-radius: 50%;
 }
 
@@ -697,6 +851,7 @@ a {
   .star,
   .sound-wave,
   .sound-slash,
+  .search-flash,
   .proj-card::after {
     transition: none !important;
     animation: none !important;

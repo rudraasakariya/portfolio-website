@@ -5,6 +5,7 @@ import Script from "next/script";
 import "./globals.css";
 
 import { Providers } from "@/components/providers";
+import { CommandPalette } from "@/components/search/command-palette";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { SITE, THEME_STORAGE_KEY } from "@/lib/site-config";
@@ -37,6 +38,7 @@ export default function RootLayout({
           <SiteNav />
           <div className="flex flex-1 flex-col">{children}</div>
           <SiteFooter />
+          <CommandPalette />
         </Providers>
       </body>
     </html>

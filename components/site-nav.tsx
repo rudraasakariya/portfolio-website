@@ -7,6 +7,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 import { SoundToggle } from "@/components/sound-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { OPEN_SEARCH_EVENT } from "@/lib/search/config";
 import { NAV_LINKS, ROUTES, SITE } from "@/lib/site-config";
 
 const DOT_SPRING = { type: "spring", stiffness: 500, damping: 12 } as const;
@@ -100,6 +101,33 @@ export function SiteNav(): React.JSX.Element {
       </div>
 
       <div className="flex items-center gap-3">
+        <button
+          type="button"
+          className="search-btn"
+          aria-label="Search"
+          title="Search (⌘K)"
+          onClick={() => window.dispatchEvent(new CustomEvent(OPEN_SEARCH_EVENT))}
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <circle
+              cx="10.5"
+              cy="10.5"
+              r="6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+            <line
+              x1="15"
+              y1="15"
+              x2="20"
+              y2="20"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
         <SoundToggle />
         <ThemeToggle />
         <a
