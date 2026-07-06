@@ -1021,6 +1021,9 @@ a {
 }
 .rc-node {
   cursor: pointer;
+  /* The rect below carries the focus treatment — the page-global ring
+     draws a foreign white box around the group. */
+  outline: none;
 }
 .rc-node rect {
   fill: var(--card-bg);

@@ -10,13 +10,13 @@ import { soundManager } from "@/lib/sound-manager";
 
 /* Diagram geometry, all in viewBox units. */
 const VIEW_W = 920;
-const VIEW_H = 260;
+const VIEW_H = 186;
 const NODE_W = 170;
 const NODE_H = 64;
 const NODE_Y = 28;
 const NODE_XS = [10, 250, 490, 730] as const;
 const LANE_Y = NODE_Y + NODE_H / 2; // 60 — request lane through node centers
-const RETURN_Y = 196; // response lane
+const RETURN_Y = 152; // response lane
 
 const NODE_CENTERS = NODE_XS.map((x) => x + NODE_W / 2);
 
@@ -150,7 +150,7 @@ export function RequestCycle(): React.JSX.Element {
             </button>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="mx-auto max-w-[980px] overflow-x-auto">
             <svg
               className="rc-svg"
               viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
