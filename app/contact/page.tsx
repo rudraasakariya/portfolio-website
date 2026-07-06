@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact/contact-form";
+import { CONTACT_DETAILS_ANCHOR } from "@/lib/search/chunks";
 import { SITE } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function ContactPage(): React.JSX.Element {
       </p>
 
       <div className="grid items-start gap-16 md:grid-cols-[0.85fr_1.15fr]">
-        <div>
+        <div id={CONTACT_DETAILS_ANCHOR}>
           {CONTACT_ROWS.map((row, index) => {
             const valueClass = row.accent
               ? "text-[15px] font-medium text-(--accent)"

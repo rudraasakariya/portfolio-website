@@ -26,6 +26,8 @@ const cardVariants: Variants = {
 interface SpotlightCardProps {
   className?: string;
   children: React.ReactNode;
+  /** Anchor id so search results and hash links can jump to the card. */
+  id?: string;
   /** Stagger position when the card set enters after a filter change. */
   index?: number;
   /** Forwarded so AnimatePresence popLayout can measure the card. */
@@ -41,6 +43,7 @@ interface SpotlightCardProps {
 export function SpotlightCard({
   className,
   children,
+  id,
   index = 0,
   ref,
 }: SpotlightCardProps): React.JSX.Element {
@@ -54,6 +57,7 @@ export function SpotlightCard({
   return (
     <motion.div
       ref={ref}
+      id={id}
       variants={cardVariants}
       initial="hidden"
       animate="visible"

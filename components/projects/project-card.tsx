@@ -94,7 +94,7 @@ function ActionRow({ project }: ProjectCardProps): React.JSX.Element | null {
 export function ProjectCard({ project, index, ref }: ProjectCardRootProps): React.JSX.Element {
   if (project.layout === "featured-side") {
     return (
-      <SpotlightCard ref={ref} index={index} className="proj-card md:col-span-2 md:grid md:grid-cols-2">
+      <SpotlightCard ref={ref} id={project.id} index={index} className="proj-card md:col-span-2 md:grid md:grid-cols-2">
         <TiltPreview className="preview-frame md:h-auto md:border-r md:border-b-0 md:border-r-(--border)">
           <div className="chrome">
             <span className="dot" />
@@ -123,7 +123,7 @@ export function ProjectCard({ project, index, ref }: ProjectCardRootProps): Reac
 
   if (project.layout === "featured-wide") {
     return (
-      <SpotlightCard ref={ref} index={index} className="proj-card md:col-span-2">
+      <SpotlightCard ref={ref} id={project.id} index={index} className="proj-card md:col-span-2">
         <TiltPreview className="preview-frame h-[140px]">
           <ProjectPreview caption={project.previewCaption} />
         </TiltPreview>
@@ -141,7 +141,7 @@ export function ProjectCard({ project, index, ref }: ProjectCardRootProps): Reac
   }
 
   return (
-    <SpotlightCard ref={ref} index={index} className="proj-card">
+    <SpotlightCard ref={ref} id={project.id} index={index} className="proj-card">
       <TiltPreview className="preview-frame">
         <ProjectPreview caption={project.previewCaption} />
       </TiltPreview>

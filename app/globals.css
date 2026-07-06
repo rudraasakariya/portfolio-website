@@ -672,6 +672,11 @@ a {
   transition-property: border-color !important;
 }
 
+/* Anchored elements (search results, hash links) land clear of the sticky nav. */
+[id] {
+  scroll-margin-top: 90px;
+}
+
 /* Visible keyboard focus everywhere, in the accent color. */
 :focus-visible {
   outline: 2px solid var(--accent);

@@ -3,6 +3,12 @@ import type { Metadata } from "next";
 import { StaggerGroup, StaggerItem } from "@/components/motion/reveal";
 import { BIO, EDUCATION, EXPERIENCE, SKILL_GROUPS } from "@/lib/content/about";
 import type { TimelineEntry } from "@/lib/content/about";
+import {
+  BIO_ANCHOR,
+  educationAnchor,
+  experienceAnchor,
+  skillsAnchor,
+} from "@/lib/search/chunks";
 import { SITE } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -13,12 +19,15 @@ export const metadata: Metadata = {
 function TimelineRow({
   entry,
   first,
+  anchor,
 }: {
   entry: TimelineEntry;
   first: boolean;
+  /** Scroll target for search results and hash links. */
+  anchor: string;
 }): React.JSX.Element {
   return (
-    <div className={`tl-item ${first ? "border-t-0" : ""}`}>
+    <div id={anchor} className={`tl-item ${first ? "border-t-0" : ""}`}>
       <div className="font-mono text-[13px] font-medium text-(--text-muted)">
         {entry.period}
       </div>
@@ -56,7 +65,10 @@ export default function AboutPage(): React.JSX.Element {
       <h1 className="mb-6 text-[clamp(28px,4vw,42px)] leading-[1.15] font-semibold tracking-[-0.02em]">
         {SITE.name}
       </h1>
-      <p className="mb-[60px] max-w-[680px] text-[17px] leading-[1.7] text-(--text-secondary)">
+      <p
+        id={BIO_ANCHOR}
+        className="mb-[60px] max-w-[680px] text-[17px] leading-[1.7] text-(--text-secondary)"
+      >
         {BIO}
       </p>
 
@@ -64,7 +76,7 @@ export default function AboutPage(): React.JSX.Element {
       <StaggerGroup className="mb-14 flex flex-col">
         {EDUCATION.map((entry, index) => (
           <StaggerItem key={entry.heading}>
-            <TimelineRow entry={entry} first={index === 0} />
+            <TimelineRow entry={entry} first={index === 0} anchor={educationAnchor(entry.heading)} />
           </StaggerItem>
         ))}
       </StaggerGroup>
@@ -73,7 +85,7 @@ export default function AboutPage(): React.JSX.Element {
       <StaggerGroup className="mb-14 flex flex-col">
         {EXPERIENCE.map((entry, index) => (
           <StaggerItem key={entry.heading}>
-            <TimelineRow entry={entry} first={index === 0} />
+            <TimelineRow entry={entry} first={index === 0} anchor={experienceAnchor(entry.heading)} />
           </StaggerItem>
         ))}
       </StaggerGroup>
@@ -81,7 +93,7 @@ export default function AboutPage(): React.JSX.Element {
       <h2 className="mb-5 text-[22px] font-semibold text-(--text-primary)">Skills</h2>
       <StaggerGroup className="flex flex-col gap-[22px]">
         {SKILL_GROUPS.map((group) => (
-          <StaggerItem key={group.label}>
+          <StaggerItem key={group.label} id={skillsAnchor(group.label)}>
             <div className="mb-[10px] font-mono text-[12px] font-medium tracking-[0.05em] text-(--text-muted) uppercase">
               {group.label}
             </div>

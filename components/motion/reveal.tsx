@@ -60,12 +60,15 @@ export function StaggerGroup({
 export function StaggerItem({
   children,
   className,
+  id,
 }: {
   children: React.ReactNode;
   className?: string;
+  /** Anchor id so search results and hash links can jump to the item. */
+  id?: string;
 }): React.JSX.Element {
   return (
-    <motion.div className={className} variants={itemVariants}>
+    <motion.div id={id} className={className} variants={itemVariants}>
       {children}
     </motion.div>
   );
