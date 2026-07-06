@@ -20,11 +20,11 @@ export const SITE = {
   name: "Rudraraj Sakariya",
   title: "Rudraraj Sakariya — Full-Stack Software Engineer",
   description:
-    "Full-stack software engineer (Rutgers CS, May 2026). I build production web platforms end-to-end — auth, APIs, and UI.",
+    "Full-stack software engineer (Rutgers CS '26 graduate). I build production web platforms end-to-end — auth, APIs, and UI.",
   email: "rudrasakariya16@gmail.com",
   phone: "+1 (856) 619-5239",
   phoneHref: "tel:+18566195239",
-  location: "Camden, NJ",
+  location: "USA",
   copyrightYear: 2026,
   linkedinUrl: "https://www.linkedin.com/in/rudrasakariya",
   linkedinLabel: "linkedin.com/in/rudrasakariya",

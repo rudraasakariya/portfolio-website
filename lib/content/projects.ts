@@ -84,10 +84,10 @@ export const PROJECTS: ReadonlyArray<Project> = [
     category: ProjectCategory.FullStackWeb,
     layout: "standard",
     previewCaption: "private — university system",
-    tags: ["Next.js", "NestJS", "PostgreSQL", "Google Apps Script"],
+    tags: ["Next.js", "PostgreSQL", "Prisma", "NextAuth"],
     impact: [
       "Designed and built solo, now live department-wide — scheduling, auth, dashboards, KPI reporting — under consideration for licensing to partner schools.",
-      "Eliminated infra costs entirely (cut to $0) by re-hosting on Google Apps Script within Rutgers' Workspace.",
+      "Re-platformed hosting twice to fit university constraints — a cost-free run on Google Apps Script inside Rutgers' Workspace, then back to Next.js + PostgreSQL.",
     ],
     demoUrl: null,
     githubUrl: null,

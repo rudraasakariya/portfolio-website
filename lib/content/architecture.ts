@@ -33,9 +33,9 @@ export const ARCH_NODES: ReadonlyArray<ArchNode> = [
   {
     id: "service",
     label: "Service layer",
-    sublabel: "NestJS business logic",
+    sublabel: "Next.js server logic",
     detail:
-      "Pure business logic: scheduling rules, session status, KPI rollups. No request or response objects past the controller.",
+      "Pure business logic: scheduling rules, session status, KPI rollups — isolated modules the route handlers call, with no request or response objects past the boundary.",
     hopCaption: "Service resolves the sessions this tutor is allowed to see.",
   },
   {

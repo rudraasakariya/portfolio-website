@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: `Contact — ${SITE.name}`,
   description:
-    "Open to full-time software engineering roles starting summer 2026. Fastest way to reach me is email.",
+    "Open to full-time software engineering roles — available immediately. Fastest way to reach me is email.",
 };
 
 interface ContactRow {
@@ -35,8 +35,8 @@ export default function ContactPage(): React.JSX.Element {
         Let&apos;s talk
       </h1>
       <p className="mb-12 max-w-[600px] text-[17px] leading-[1.6] text-(--text-secondary)">
-        Open to full-time software engineering roles starting summer 2026. Fastest way
-        to reach me is email — I check it daily.
+        Open to full-time software engineering roles — available immediately. Fastest
+        way to reach me is email — I check it daily.
       </p>
 
       <div className="grid items-start gap-16 md:grid-cols-[0.85fr_1.15fr]">

@@ -1,5 +1,5 @@
 export const HERO = {
-  availability: "Open to full-time roles · Summer 2026",
+  availability: "Open to full-time roles · Available now",
   role: "Full-Stack Software Engineer",
   valueProp:
     "I build production web platforms end-to-end — auth, APIs, and UI — with a focus on clean systems that hold up at scale.",
@@ -24,7 +24,7 @@ export const HIGHLIGHTS: ReadonlyArray<HighlightCard> = [
   },
   {
     index: "03",
-    title: "Rutgers CS, 3.7 GPA — May 2026",
+    title: "Rutgers CS, 3.4 GPA — May 2026",
     body: "Transferred in with a 4.0 from Vidyalankar School of Information Technology, Mumbai.",
   },
 ];

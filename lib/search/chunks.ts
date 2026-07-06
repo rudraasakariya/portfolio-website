@@ -143,7 +143,7 @@ export function buildChunks(): SearchChunk[] {
   chunks.push({
     id: CONTACT_DETAILS_ANCHOR,
     label: "Contact",
-    text: `Open to full-time software engineering roles starting summer 2026. Based in ${SITE.location}. Reach me at ${SITE.email} or ${SITE.phone}, LinkedIn ${SITE.linkedinLabel}, GitHub ${SITE.githubLabel}.`,
+    text: `Open to full-time software engineering roles — available immediately. Based in the ${SITE.location}. Reach me at ${SITE.email} or ${SITE.phone}, LinkedIn ${SITE.linkedinLabel}, GitHub ${SITE.githubLabel}.`,
     route: ROUTES.contact,
     anchor: CONTACT_DETAILS_ANCHOR,
   });

@@ -6,13 +6,13 @@ export interface TimelineEntry {
 }
 
 export const BIO =
-  "Full-stack software engineer graduating from Rutgers with a CS degree in May 2026. I've built and shipped production systems solo — from a department-wide tutoring platform used by 1,500 students, to multi-tenant governance features at a California SaaS startup. I care most about clean API design, auth systems that actually hold under real users, and shipping code I'd be comfortable maintaining a year later.";
+  "Full-stack software engineer and Rutgers CS graduate (May 2026). I've built and shipped production systems solo — from a department-wide tutoring platform used by 1,500 students, to multi-tenant governance features at a California SaaS startup. I care most about clean API design, auth systems that actually hold under real users, and shipping code I'd be comfortable maintaining a year later.";
 
 export const EDUCATION: ReadonlyArray<TimelineEntry> = [
   {
     period: "Aug 2024 – May 2026",
     heading: "Rutgers University, Camden, NJ",
-    subheading: "Bachelor of Science, Computer Science — GPA 3.7",
+    subheading: "Bachelor of Science, Computer Science — GPA 3.4",
     bullets: [],
   },
   {
@@ -30,8 +30,8 @@ export const EXPERIENCE: ReadonlyArray<TimelineEntry> = [
     heading: "Lead Full-Stack Developer — Rutgers Accelerate and Renew Academy",
     subheading: "Camden, NJ · On-campus",
     bullets: [
-      "Launched a tutoring operations platform now live department-wide for 1,500 K–12 students and 60 tutors, designed and built solo (Next.js, NestJS, PostgreSQL) — scheduling, auth, dashboards, KPI reporting.",
-      "Eliminated infrastructure costs entirely and removed third-party data exposure by re-engineering hosting on Google Apps Script within the university's Workspace environment.",
+      "Launched a tutoring operations platform now live department-wide for 1,500 K–12 students and 60 tutors, designed and built solo (Next.js, PostgreSQL, Prisma) — scheduling, auth, dashboards, KPI reporting.",
+      "Re-platformed the system twice to fit the university's constraints — including a cost-free period on Google Apps Script inside Rutgers' Workspace — before returning it to Next.js + PostgreSQL.",
       "Prevented cross-tutor data access by enforcing isolation at the middleware layer.",
     ],
   },
