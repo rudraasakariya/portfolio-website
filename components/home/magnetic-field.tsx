@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
 import { soundManager } from "@/lib/sound-manager";
 
@@ -73,6 +73,33 @@ function saveConfig(config: FieldConfig): void {
   }
 }
 
+/**
+ * Tiny external store bound via useSyncExternalStore: hydration-safe (server
+ * snapshot is the default config) and readable from the rAF loop without
+ * re-subscribing effects on every slider move.
+ */
+let storeConfig: FieldConfig | null = null;
+const storeListeners = new Set<() => void>();
+
+const fieldStore = {
+  subscribe(listener: () => void): () => void {
+    storeListeners.add(listener);
+    return () => storeListeners.delete(listener);
+  },
+  getSnapshot(): FieldConfig {
+    storeConfig ??= loadConfig();
+    return storeConfig;
+  },
+  getServerSnapshot(): FieldConfig {
+    return DEFAULT_CONFIG;
+  },
+  update(partial: Partial<FieldConfig>): void {
+    storeConfig = { ...fieldStore.getSnapshot(), ...partial };
+    saveConfig(storeConfig);
+    storeListeners.forEach((listener) => listener());
+  },
+};
+
 /** Interpolate between angles along the shortest arc. */
 function lerpAngle(from: number, to: number, t: number): number {
   const delta = Math.atan2(Math.sin(to - from), Math.cos(to - from));
@@ -80,31 +107,16 @@ function lerpAngle(from: number, to: number, t: number): number {
 }
 
 export function MagneticField(): React.JSX.Element {
-  // Start from defaults on both server and client, then adopt the visitor's
-  // saved config after mount — reading storage in the initializer would make
-  // the server and client render different grids (hydration mismatch).
-  const [config, setConfig] = useState<FieldConfig>(DEFAULT_CONFIG);
+  const config = useSyncExternalStore(
+    fieldStore.subscribe,
+    fieldStore.getSnapshot,
+    fieldStore.getServerSnapshot,
+  );
   const [panelOpen, setPanelOpen] = useState(false);
 
-  useEffect(() => {
-    const saved = loadConfig();
-    setConfig((prev) =>
-      saved.spacing === prev.spacing &&
-      saved.magnetism === prev.magnetism &&
-      saved.flow === prev.flow
-        ? prev
-        : saved,
-    );
-  }, []);
-
   const svgRef = useRef<SVGSVGElement>(null);
-  const configRef = useRef(config);
   const pointerRef = useRef<{ x: number; y: number } | null>(null);
   const ripplesRef = useRef<Ripple[]>([]);
-
-  useEffect(() => {
-    configRef.current = config;
-  }, [config]);
 
   const points = useMemo(() => {
     const cols = Math.ceil(VIEW_W / config.spacing);
@@ -155,7 +167,13 @@ export function MagneticField(): React.JSX.Element {
     let running = false;
 
     const tick = (now: number): void => {
-      const { magnetism, flow, spacing } = configRef.current;
+      // Hold still during the theme wipe — per-frame SVG churn competes with
+      // the view transition for raster time and causes tile flashes.
+      if (document.documentElement.classList.contains("theme-switching")) {
+        frame = requestAnimationFrame(tick);
+        return;
+      }
+      const { magnetism, flow, spacing } = fieldStore.getSnapshot();
       const t = now / 1000;
       const pointer = pointerRef.current;
       const ripples = ripplesRef.current;
@@ -253,11 +271,7 @@ export function MagneticField(): React.JSX.Element {
   };
 
   const updateConfig = (partial: Partial<FieldConfig>): void => {
-    setConfig((prev) => {
-      const next = { ...prev, ...partial };
-      saveConfig(next);
-      return next;
-    });
+    fieldStore.update(partial);
   };
 
   const randomize = (): void => {
