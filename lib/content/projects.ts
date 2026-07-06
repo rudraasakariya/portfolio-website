@@ -89,7 +89,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
       "Designed and built solo, now live department-wide — scheduling, auth, dashboards, KPI reporting — under consideration for licensing to partner schools.",
       "Re-platformed hosting twice to fit university constraints — a cost-free run on Google Apps Script inside Rutgers' Workspace, then back to Next.js + PostgreSQL.",
     ],
-    demoUrl: null,
+    demoUrl: "https://rara-nextjs-platform.vercel.app",
     githubUrl: null,
     privateLabel: "Private — access-gated",
   },

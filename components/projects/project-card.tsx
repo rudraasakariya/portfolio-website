@@ -65,20 +65,17 @@ function ImpactList({
 }
 
 function ActionRow({ project }: ProjectCardProps): React.JSX.Element | null {
-  if (project.privateLabel !== null) {
-    return (
-      <div className="mt-auto flex gap-[10px] pt-[6px]">
-        <span className="font-mono text-[13px] font-medium text-(--text-muted)">
-          {project.privateLabel}
-        </span>
-      </div>
-    );
-  }
-  if (project.demoUrl === null && project.githubUrl === null) {
+  if (
+    project.demoUrl === null &&
+    project.githubUrl === null &&
+    project.privateLabel === null
+  ) {
     return null;
   }
+  // A project can be linkable AND access-gated (live but behind a login):
+  // show the buttons and the private note side by side.
   return (
-    <div className="mt-auto flex gap-[10px] pt-[6px]">
+    <div className="mt-auto flex flex-wrap items-center gap-[10px] pt-[6px]">
       {project.demoUrl !== null &&
         (project.demoUrl.startsWith("/") ? (
           <Link className="demo-btn" href={project.demoUrl}>
@@ -93,6 +90,11 @@ function ActionRow({ project }: ProjectCardProps): React.JSX.Element | null {
         <a className="gh-btn" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
           GitHub
         </a>
+      )}
+      {project.privateLabel !== null && (
+        <span className="font-mono text-[13px] font-medium text-(--text-muted)">
+          {project.privateLabel}
+        </span>
       )}
     </div>
   );
