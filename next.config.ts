@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    // The vision demo moved into the Lab.
+    return [{ source: "/vision", destination: "/lab", permanent: true }];
+  },
 };
 
 export default nextConfig;

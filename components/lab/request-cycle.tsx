@@ -125,7 +125,8 @@ export function RequestCycle(): React.JSX.Element {
   const openNode = ARCH_NODES.find((node) => node.id === openDetail);
 
   return (
-    <section id={REQUEST_CYCLE_ANCHOR} className="mx-auto max-w-[1240px] px-[7vw] pb-[8vh]">
+    // Page chrome (width, padding) comes from the page that composes this.
+    <section id={REQUEST_CYCLE_ANCHOR}>
       <Reveal>
         <div className="showcase-card">
           <div className="mb-7 flex flex-wrap items-start justify-between gap-5">

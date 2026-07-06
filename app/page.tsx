@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { Hero } from "@/components/home/hero";
-import { RequestCycle } from "@/components/home/request-cycle";
 import { Showcase } from "@/components/home/showcase";
 import { StaggerGroup, StaggerItem } from "@/components/motion/reveal";
 import { HIGHLIGHTS, STACK_PILLS } from "@/lib/content/home";
@@ -29,8 +28,6 @@ export default function HomePage(): React.JSX.Element {
       </div>
 
       <Showcase />
-
-      <RequestCycle />
 
       <div className="mx-auto max-w-[1240px] px-[7vw] pb-[8vh]">
         <StaggerGroup className="flex flex-wrap justify-center gap-[10px]">

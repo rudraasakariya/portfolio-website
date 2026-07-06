@@ -1,3 +1,5 @@
+import { ROUTES } from "@/lib/site-config";
+
 export enum ProjectCategory {
   FullStackWeb = "fullstack-web",
   SystemsNative = "systems-native",
@@ -107,7 +109,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
       "Added live webcam object detection — a YOLOS transformer runs on-device over the video feed and draws labeled boxes on a canvas overlay in real time.",
       "Everything is fully client-side: models load once from a CDN, inference runs on the visitor's hardware, and no data ever leaves the device.",
     ],
-    demoUrl: "/vision",
+    demoUrl: ROUTES.lab,
     githubUrl: null,
     privateLabel: null,
   },

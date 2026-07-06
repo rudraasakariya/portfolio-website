@@ -108,7 +108,7 @@ export function buildChunks(): SearchChunk[] {
     id: REQUEST_CYCLE_ANCHOR,
     label: "Architecture — request cycle",
     text: `${ARCHITECTURE.heading}. ${ARCHITECTURE.intro} ${ARCH_NODES.map((node) => `${node.label} (${node.sublabel})`).join(" → ")}.`,
-    route: ROUTES.home,
+    route: ROUTES.lab,
     anchor: REQUEST_CYCLE_ANCHOR,
   });
 
@@ -116,7 +116,7 @@ export function buildChunks(): SearchChunk[] {
     id: VISION_DEMO_ANCHOR,
     label: "Vision playground",
     text: "Live object detection in the browser: a YOLOS transformer (ONNX) runs on-device over your webcam feed and draws labeled boxes in real time. No video ever leaves your device.",
-    route: ROUTES.vision,
+    route: ROUTES.lab,
     anchor: VISION_DEMO_ANCHOR,
   });
 

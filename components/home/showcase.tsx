@@ -53,6 +53,14 @@ export function Showcase(): React.JSX.Element {
         </Reveal>
       ))}
 
+      <Reveal className="flex justify-center pt-2">
+        <Link
+          href={ROUTES.lab}
+          className="link-slide font-mono text-[13px] font-medium text-(--accent)"
+        >
+          More experiments in the Lab →
+        </Link>
+      </Reveal>
     </div>
   );
 }

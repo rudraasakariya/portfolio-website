@@ -1,9 +1,9 @@
 export const ROUTES = {
   home: "/",
   projects: "/projects",
+  lab: "/lab",
   about: "/about",
   contact: "/contact",
-  vision: "/vision",
 } as const;
 
 export type Route = (typeof ROUTES)[keyof typeof ROUTES];
@@ -11,6 +11,7 @@ export type Route = (typeof ROUTES)[keyof typeof ROUTES];
 export const NAV_LINKS: ReadonlyArray<{ label: string; href: Route }> = [
   { label: "Home", href: ROUTES.home },
   { label: "Projects", href: ROUTES.projects },
+  { label: "Lab", href: ROUTES.lab },
   { label: "About", href: ROUTES.about },
   { label: "Contact", href: ROUTES.contact },
 ];
