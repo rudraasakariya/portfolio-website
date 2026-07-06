@@ -453,6 +453,16 @@ a {
   stroke-dashoffset: 0;
 }
 
+/* With the waves gone, the left-sitting speaker body reads off-center —
+   slide the whole glyph right to keep the muted icon optically centered. */
+.sound-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.sound-btn[data-muted="true"] svg {
+  transform: translateX(2px);
+}
+
 /* Placeholder stripes for headshot / project previews */
 .stripes {
   background: repeating-linear-gradient(
