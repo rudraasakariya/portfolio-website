@@ -43,6 +43,7 @@
   --card-spotlight: rgba(42, 99, 199, 0.1);
   /* Home contrast band: intentionally dark in both themes */
   --band-bg: #14161a;
+  --scrollbar-thumb: rgba(0, 0, 0, 0.25);
 }
 
 :root[data-theme="dark"] {
@@ -64,11 +65,39 @@
   --card-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
   --card-spotlight: rgba(91, 155, 240, 0.16);
   --band-bg: #1f2229;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.22);
 }
 
 @theme inline {
   --font-mono: var(--font-plex-mono), monospace;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Reserve the scrollbar gutter so locking body scroll (open palette) does
+   not reflow the page, and slim the bar down to match the UI. */
+html {
+  scrollbar-gutter: stable;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box;
+  background-color: var(--scrollbar-thumb);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 body {
@@ -294,15 +323,20 @@ a {
   50% { opacity: 0.35; }
 }
 
-/* The magnifier glances around when hovered. */
+/* The magnifier boops on hover — a baked spring (scale + twist with
+   underdamped settle), sampled from the joshwcomeau.com search icon. */
 .search-btn:hover .search-icon {
-  animation: search-peek 0.5s ease-in-out;
+  animation: search-peek 0.7s linear;
+  transform-origin: center;
 }
 
 @keyframes search-peek {
-  0%, 100% { transform: translate(0, 0); }
-  30% { transform: translate(-1.6px, -1.2px); }
-  65% { transform: translate(1.4px, 0.9px); }
+  0% { transform: scale(1) rotate(0deg); }
+  17% { transform: scale(1.11) rotate(9.4deg); }
+  29% { transform: scale(1.06) rotate(5.5deg); }
+  46% { transform: scale(0.95) rotate(-3.9deg); }
+  69% { transform: scale(1.02) rotate(1.7deg); }
+  100% { transform: scale(1) rotate(0deg); }
 }
 
 /* Magnetic field configurator (hero art) */
@@ -680,7 +714,8 @@ a {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 14vh 20px 20px;
+  /* Panel rests just above the vertical middle of the viewport. */
+  padding: 26vh 20px 20px;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -715,6 +750,11 @@ a {
 }
 
 .palette-input::placeholder {
+  color: var(--text-muted);
+}
+
+.palette-glass {
+  flex: none;
   color: var(--text-muted);
 }
 
@@ -786,19 +826,76 @@ a {
 
 .palette-empty,
 .palette-hint {
-  padding: 22px 16px;
+  padding: 20px 16px 22px;
   font-size: 14px;
   color: var(--text-muted);
 }
 
+.palette-eyebrow {
+  margin-bottom: 12px;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.palette-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.palette-suggestion {
+  padding: 6px 13px;
+  border: 1px solid var(--border-strong);
+  border-radius: 20px;
+  background: var(--card-bg);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.palette-suggestion:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
 .palette-foot {
   display: flex;
-  gap: 14px;
-  padding: 10px 16px;
+  align-items: center;
+  gap: 16px;
+  padding: 9px 16px;
   border-top: 1px solid var(--border);
   font-family: var(--font-plex-mono), monospace;
   font-size: 11px;
   color: var(--text-muted);
+}
+
+.palette-foot span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.palette-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 21px;
+  padding: 2px 6px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--code-bg);
+  font-family: inherit;
+  font-size: 10px;
+  color: var(--text-secondary);
 }
 
 /* Search results pulse their landing spot in the accent color. */
@@ -874,6 +971,12 @@ a {
 .sound-btn:focus-visible,
 .search-btn:focus-visible {
   border-radius: 50%;
+}
+
+/* The palette panel itself is the focus signal — no ring on its input.
+   Must live OUTSIDE @layer components or the global ring above wins. */
+.palette-input:focus-visible {
+  outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

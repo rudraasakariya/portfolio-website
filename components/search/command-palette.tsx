@@ -32,7 +32,7 @@ const MODE_LABELS: Record<SearchMode, string> = {
 };
 
 const PLACEHOLDER = "Ask my portfolio…";
-const HINT = "Try “auth”, “Docker”, “clipboard sync”, or “Rutgers”.";
+const SUGGESTIONS = ["auth", "Docker", "clipboard sync", "Rutgers"] as const;
 const EMPTY_MESSAGE = "No matches — try different words.";
 
 class SearchIndexLoadError extends Error {
@@ -292,6 +292,31 @@ export function CommandPalette(): React.JSX.Element {
             onClick={(event) => event.stopPropagation()}
           >
             <div className="palette-head">
+              <svg
+                className="palette-glass"
+                viewBox="0 0 24 24"
+                width="15"
+                height="15"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="10.5"
+                  cy="10.5"
+                  r="5.75"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <line
+                  x1="14.9"
+                  y1="14.9"
+                  x2="19.6"
+                  y2="19.6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
               <input
                 autoFocus
                 className="palette-input"
@@ -335,12 +360,38 @@ export function CommandPalette(): React.JSX.Element {
                 )}
               </ul>
             ) : (
-              <div className="palette-hint">{HINT}</div>
+              <div className="palette-hint">
+                <div className="palette-eyebrow">Try asking</div>
+                <div className="palette-suggestions">
+                  {SUGGESTIONS.map((suggestion) => (
+                    <button
+                      key={suggestion}
+                      type="button"
+                      className="palette-suggestion"
+                      // Keep focus in the input so typing continues seamlessly.
+                      onPointerDown={(event) => event.preventDefault()}
+                      onClick={() => {
+                        soundManager.play("tick");
+                        setQuery(suggestion);
+                        setActiveIndex(0);
+                      }}
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
             <div className="palette-foot">
-              <span>↑↓ navigate</span>
-              <span>↵ open</span>
-              <span>esc close</span>
+              <span>
+                <kbd className="palette-key">↑↓</kbd> navigate
+              </span>
+              <span>
+                <kbd className="palette-key">↵</kbd> open
+              </span>
+              <span>
+                <kbd className="palette-key">esc</kbd> close
+              </span>
             </div>
           </motion.div>
         </motion.div>
