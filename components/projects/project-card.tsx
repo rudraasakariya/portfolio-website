@@ -104,17 +104,13 @@ export function ProjectCard({ project, index, ref }: ProjectCardRootProps): Reac
   if (project.layout === "featured-side") {
     return (
       <SpotlightCard ref={ref} id={project.id} index={index} className="proj-card md:col-span-2 md:grid md:grid-cols-2">
-        <TiltPreview className="preview-frame md:h-auto md:border-r md:border-b-0 md:border-r-(--border)">
-          <div className="chrome">
-            <span className="dot" />
-            <span className="dot" />
-            <span className="dot" />
-          </div>
-          <div className="frame-stripes stripes md:static md:h-[calc(100%-26px)]">
-            <span className="font-mono text-[12px] font-medium text-(--text-muted)">
-              {project.previewCaption}
-            </span>
-          </div>
+        <TiltPreview className="preview-frame md:h-auto md:border-r md:border-b-0 md:border-r-(--border) [&_.frame-stripes]:md:static [&_.frame-stripes]:md:h-[calc(100%-26px)]">
+          <ProjectPreview
+            caption={project.previewCaption}
+            image={project.previewImage}
+            terminal={project.previewTerminal}
+            icon={project.previewIcon}
+          />
         </TiltPreview>
         <div className="proj-body">
           <div>
@@ -134,7 +130,12 @@ export function ProjectCard({ project, index, ref }: ProjectCardRootProps): Reac
     return (
       <SpotlightCard ref={ref} id={project.id} index={index} className="proj-card md:col-span-2">
         <TiltPreview className="preview-frame h-[140px]">
-          <ProjectPreview caption={project.previewCaption} />
+          <ProjectPreview
+            caption={project.previewCaption}
+            image={project.previewImage}
+            terminal={project.previewTerminal}
+            icon={project.previewIcon}
+          />
         </TiltPreview>
         <div className="proj-body md:grid md:grid-cols-2 md:gap-6">
           <div>
@@ -152,7 +153,12 @@ export function ProjectCard({ project, index, ref }: ProjectCardRootProps): Reac
   return (
     <SpotlightCard ref={ref} id={project.id} index={index} className="proj-card">
       <TiltPreview className="preview-frame">
-        <ProjectPreview caption={project.previewCaption} />
+        <ProjectPreview
+          caption={project.previewCaption}
+          image={project.previewImage}
+          terminal={project.previewTerminal}
+          icon={project.previewIcon}
+        />
       </TiltPreview>
       <div className="proj-body">
         <div>

@@ -1,3 +1,4 @@
+import type { PreviewIcon } from "@/components/projects/project-preview";
 import { ROUTES } from "@/lib/site-config";
 
 export enum ProjectCategory {
@@ -24,6 +25,12 @@ export interface Project {
   category: ProjectCategory;
   layout: ProjectLayout;
   previewCaption: string;
+  /** Null = no screenshot yet; falls back to the striped placeholder. */
+  previewImage: string | null;
+  /** Real captured CLI output, rendered as a static terminal block. */
+  previewTerminal: ReadonlyArray<string> | null;
+  /** Small centered glyph for projects with no visual artifact to show. */
+  previewIcon: PreviewIcon | null;
   tags: ReadonlyArray<string>;
   impact: ReadonlyArray<string>;
   /** Null = no hosted demo yet (button hidden until one exists). */
@@ -44,7 +51,10 @@ export const PROJECTS: ReadonlyArray<Project> = [
     eyebrowAccent: true,
     category: ProjectCategory.FullStackWeb,
     layout: "featured-side",
-    previewCaption: "live demo preview",
+    previewCaption: "desktop app — see GitHub for a walkthrough",
+    previewImage: null,
+    previewTerminal: null,
+    previewIcon: "clipboard",
     tags: ["Electron", "Next.js / Nextron", "Express", "Socket.IO", "Firebase", "OAuth2"],
     impact: [
       "Enabled real-time clipboard and file sync across devices with Socket.IO and Firebase, with Drive-backed 3-slot LRU storage and OAuth2 auth.",
@@ -65,6 +75,20 @@ export const PROJECTS: ReadonlyArray<Project> = [
     category: ProjectCategory.SystemsNative,
     layout: "standard",
     previewCaption: "CLI tool — no UI",
+    previewImage: null,
+    previewTerminal: [
+      "$ ./crawler -h",
+      "USAGE: crawler <url-1> <url-2> <depth>",
+      "",
+      "Arguments:",
+      "  <url-1>   Starting Wikipedia article URL",
+      "  <url-2>   Target Wikipedia article URL",
+      "  <depth>   Maximum depth to search",
+      "",
+      "Example:",
+      "  crawler .../wiki/Linux .../wiki/Rutgers_University-Camden 6",
+    ],
+    previewIcon: null,
     tags: ["C", "pthreads", "libcurl", "gumbo-parser"],
     impact: [
       "Built a BFS path-finder using 4 concurrent worker threads, libcurl for fetching, and gumbo-parser for link extraction.",
@@ -84,6 +108,9 @@ export const PROJECTS: ReadonlyArray<Project> = [
     category: ProjectCategory.FullStackWeb,
     layout: "standard",
     previewCaption: "private — university system",
+    previewImage: "/projects/rutgers-tutoring-preview.png",
+    previewTerminal: null,
+    previewIcon: null,
     tags: ["Next.js", "PostgreSQL", "Prisma", "NextAuth"],
     impact: [
       "Designed and built solo, now live department-wide — scheduling, auth, dashboards, KPI reporting — under consideration for licensing to partner schools.",
@@ -103,6 +130,9 @@ export const PROJECTS: ReadonlyArray<Project> = [
     category: ProjectCategory.AiMl,
     layout: "standard",
     previewCaption: "live in-browser demo",
+    previewImage: "/projects/on-device-ai-preview.png",
+    previewTerminal: null,
+    previewIcon: null,
     tags: ["transformers.js", "ONNX", "MiniLM embeddings", "YOLOS detection"],
     impact: [
       "Built the ⌘K semantic search on this site: MiniLM sentence embeddings computed at build time, cosine matching in the browser with an instant keyword fallback while the model warms up.",
@@ -123,6 +153,9 @@ export const PROJECTS: ReadonlyArray<Project> = [
     category: ProjectCategory.FullStackWeb,
     layout: "featured-wide",
     previewCaption: "internal — SaaS startup portal",
+    previewImage: null,
+    previewTerminal: null,
+    previewIcon: "shield",
     tags: ["React", "NestJS", "PostgreSQL", "Auth0", "Docker", "Jest / Playwright"],
     impact: [
       "Delivered 15 production endpoints and UI workflows end-to-end, owning UI, API, and DB layers with no handoffs.",

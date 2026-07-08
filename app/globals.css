@@ -669,6 +669,42 @@ a {
   justify-content: center;
 }
 
+.frame-icon {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.frame-terminal {
+  background: #0d1117;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 16px 18px;
+}
+
+.terminal-block {
+  font: 400 12px var(--font-plex-mono), monospace;
+  line-height: 1.7;
+  color: #9cdcb0;
+  white-space: pre-wrap;
+}
+
+.terminal-block div:first-child {
+  color: #e6edf3;
+}
+
+.preview-frame .frame-image-wrap {
+  position: absolute;
+  top: 26px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.preview-frame .frame-image {
+  object-fit: cover;
+  object-position: top center;
+}
+
 /* Timeline rows (About page) */
 .tl-item {
   display: grid;

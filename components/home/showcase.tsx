@@ -27,7 +27,7 @@ export function Showcase(): React.JSX.Element {
         </Link>
       </Reveal>
 
-      {featured.map((project) => (
+      {featured.map((project, index) => (
         <Reveal key={project.id} className="showcase-card md:grid md:grid-cols-[0.9fr_1.1fr] md:items-center md:gap-10">
           <div className="mb-6 md:mb-0">
             <div className="mb-3 font-mono text-[11px] font-medium tracking-[0.08em] text-(--text-muted) uppercase">
@@ -48,7 +48,13 @@ export function Showcase(): React.JSX.Element {
             </AnchorLink>
           </div>
           <TiltPreview className="preview-frame h-[240px] overflow-hidden rounded-[14px] border border-(--border) md:h-[280px]">
-            <ProjectPreview caption={project.previewCaption} />
+            <ProjectPreview
+              caption={project.previewCaption}
+              image={project.previewImage}
+              terminal={project.previewTerminal}
+              icon={project.previewIcon}
+              priority={index === 0}
+            />
           </TiltPreview>
         </Reveal>
       ))}
