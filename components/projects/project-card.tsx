@@ -144,7 +144,10 @@ export function ProjectCard({ project, index, ref }: ProjectCardRootProps): Reac
             <div className="mb-3 text-[14px] text-(--text-tertiary)">{project.tagline}</div>
             <Tags project={project} />
           </div>
-          <ImpactList project={project} className="md:self-center" />
+          <div className="md:self-center">
+            <ImpactList project={project} />
+            <ActionRow project={project} />
+          </div>
         </div>
       </SpotlightCard>
     );
